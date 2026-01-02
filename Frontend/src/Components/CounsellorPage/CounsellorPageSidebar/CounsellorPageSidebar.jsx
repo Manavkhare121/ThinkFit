@@ -7,7 +7,7 @@ import themeicon from "../../../assets/themeicon.png";
 import ThinkFitimage from "../../../assets/ThinkFitimage.png";
 import settingIcon from "../../../assets/settingIcon.png";
 import Booking from "../../../assets/Booking.png"
-
+import message from '../../../assets/chatbot.png'
 
 const CounsellorPageSidebar = () => {
   const [extended, setExtended] = useState(false);
@@ -31,14 +31,21 @@ const CounsellorPageSidebar = () => {
         <div className="counsellor-sidebar-links">
           <div
             className="counsellor-sidebar-item"
-            onClick={() => navigate("/counsellor/CounsellorDashboard")}
+            onClick={() => navigate("/counsellor")}
           >
             <img src={dashboardicon} alt="dashboard" />
             {extended && <p>Dashboard</p>}
           </div>
           <div
             className="counsellor-sidebar-item"
-            onClick={()=>navigate("/counsellor/CounsellorBooking")}
+            onClick={() => navigate("/counsellor/chatting")}
+          >
+            <img src={message} alt="dashboard" />
+            {extended && <p>Chatting</p>}
+          </div>
+          <div
+            className="counsellor-sidebar-item"
+            onClick={()=>navigate("/counsellor/booking")}
             
           >
             <img src={Booking} alt="booking" />

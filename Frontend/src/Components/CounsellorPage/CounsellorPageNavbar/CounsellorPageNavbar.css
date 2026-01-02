@@ -110,3 +110,194 @@
   display: none;
 }
 
+.dashboard-page {
+  background-color: white;
+  min-height: 75vh;
+  width: 91.5%;
+  margin-left: 1.5rem;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  border-radius: 3.66px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-quote {
+  margin: 1.5rem 0;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: black;
+}
+
+.dashboard-row {
+  display: flex;
+  flex-direction: column; 
+  gap: 1rem;
+  width: 100%;
+}
+
+
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;      /* allow wrapping if screen is smaller */
+  gap: 1rem;
+  justify-content: space-between; /* spread cards evenly */
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.dashboard-card {
+  flex: 1 1 220px;   /* each card minimum width 220px, grows evenly */
+  max-width: 250px;  /* prevent it from stretching too much */
+  background-color: #c5dae1;
+  padding: 0.75rem;
+  border-radius: 3.66px;
+  display: flex;                 
+  align-items: center;
+  justify-content: space-between; /* keep icon and text apart */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+
+.dashboard-card:hover {
+   transform: scale(1.02);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6);
+}
+
+.dashboard-card-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-card-left .icon {
+  color: #2563eb;
+  margin-bottom: 3rem;
+}
+
+.dashboard-card-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: right;
+}
+
+.dashboard-card-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+.dashboard-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dashboard-card-subtext {
+  font-size: 0.875rem;
+}
+
+.dashboard-card-subtext.positive {
+  color: green;
+}
+
+.dashboard-card-subtext.negative {
+  color: red;
+}
+
+
+.sessions-box {
+  flex: 1;
+  background: #f5f5f5;
+  padding: 0.5rem;
+  border-radius: 3.66px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.sessions-title {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.sessions-list {
+  display: flex;
+  flex-direction: row; 
+  gap: 1rem;
+  width: 100%; 
+}
+
+.session-card {
+ width:100%;
+  background: #E9F5FE;
+  padding: 0.75rem;
+  border-radius: 3.66px;
+  display: flex;
+  align-items: center;
+  border: 1px solid;
+}
+
+.session-card h3 {
+  font-size:1rem;
+  margin-bottom: 0.25rem;
+}
+
+.session-card p {
+  font-size: 0.875rem;
+  color: #555;
+}
+.session-box-item{
+  display: flex;
+  align-items: center;
+  
+  gap:3.9rem;
+}
+.left-side-session-box{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.time {
+  font-weight: bold;
+  margin-right:1rem;
+}
+
+.stage {
+  background: #e0e7ff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+.insights-card {
+flex: 1;
+  background: linear-gradient(to right, #2563eb, #1e40af);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 3.66px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.insights-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.insights-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.insight-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
