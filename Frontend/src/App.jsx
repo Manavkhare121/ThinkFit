@@ -13,6 +13,7 @@ import Resource from "./Components/UserPage/ResourcePage/Resource.jsx";
 import Chatting from "./Components/UserPage/ChatWithCounsellor/Chatting.jsx"
 import CounsellorChatting from './Components/CounsellorPage/CounsellorPageChatting/CounsellorPage.jsx'
 import CounsellorBookingPage from './Components/CounsellorPage/CounsellorPageBooking/CounsellorPageBooking.jsx'
+import Admin from './Components/AdminPage/NavbarForAdmin/Navbar.jsx'
 function App() {
   return (
     <Routes>
@@ -32,6 +33,9 @@ function App() {
   <Route path="booking" element={<CounsellorBookingPage/>}/>
 </Route>
 
+<Route path="/Admin" element={<Admin/>}>
+
+</Route>
       
     </Routes>
   );

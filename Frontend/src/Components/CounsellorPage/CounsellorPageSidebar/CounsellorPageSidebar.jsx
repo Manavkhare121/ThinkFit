@@ -63,7 +63,7 @@ const CounsellorPageSidebar = () => {
             <img src={themeicon} alt="theme" />
             {extended && <p>Dark Theme</p>}
           </div>
-          <div className="counsellor-sidebar-logout">
+          <div className="counsellor-sidebar-logout" onClick={() => navigate("/login")}>
             <img src={Logouticon} alt="logout" />
             {extended && <p>Logout</p>}
           </div>

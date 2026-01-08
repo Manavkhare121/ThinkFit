@@ -5,9 +5,6 @@ const CounsellorPageBooking = () => {
   return (
     <>
     <div className="counsellor-dashboard">
-      <div className="dashboard-intro">
-        <p>"All data is 100% anonymous and aggregated to protect student privacy."</p>
-      </div>
 
       <div className="dashboard-session-container">
         <div className="dashboard-header">
@@ -24,6 +21,9 @@ const CounsellorPageBooking = () => {
             </div>
             <div className="dashboard-box">
               <h1>Session Date</h1>
+            </div>
+             <div className="dashboard-box">
+              <h1>Session Time</h1>
             </div>
           </div>
 

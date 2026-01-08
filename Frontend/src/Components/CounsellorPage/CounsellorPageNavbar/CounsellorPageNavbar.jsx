@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route, useNavigate} from "react-router-dom";
 import "./CounsellorPageNavbar.css";
 import studentimage from "../../../assets/Student image.webp";
 import CounsellorPageSidebar from "../../CounsellorPage/CounsellorPageSidebar/CounsellorPageSidebar.jsx";
@@ -10,71 +10,34 @@ const stats = [
   {
     title: "Today's Appointments",
     value: "6",
-    change: "+2",
     trend: "up",
     icon: Calendar,
   },
   {
     title: "Pending Sessions",
     value: "3",
-    change: "-1",
     trend: "down",
     icon: Clock,
   },
   {
     title: "Total Patients",
     value: "34",
-    change: "+5",
     trend: "up",
     icon: Users,
   },
   {
     title: "This Week's Sessions",
     value: "18",
-    change: "+3",
     trend: "up",
     icon: BarChart3,
   },
 ];
 
-const todaysSessions = [
-  {
-    id: 1,
-    patientName: "Pending",
-    time: "2:00 PM",
-    type: "Anxiety Support",
-    status: "confirmed",
-    stage: "Moderate",
-  },
-  {
-    id: 2,
-    patientName: "Compeletion",
-    time: "3:30 PM",
-    type: "Individual Therapy",
-    status: "confirmed",
-    stage: "Mild",
-  },
-  {
-    id: 3,
-    patientName: "Pending",
-    time: "4:45 PM",
-    type: "PTSD Session",
-    status: "pending",
-    stage: "At Risk",
-  },
-  {
-    id: 4,
-    patientName: "Pending",
-    time: "5:45 PM",
-    type: "Stress Session",
-    status: "pending",
-    stage: "Moderate",
-  },
-];
 
 const CounsellorNavbarPage = () => {
   const [extended, setExtended] = useState(false);
   const location = useLocation();
+  const navigate=useNavigate()
 const showDashboard = location.pathname === "/counsellor";
 
   return (
@@ -94,9 +57,9 @@ const showDashboard = location.pathname === "/counsellor";
           <div className="counsellor-navbar-text">
             <p>About Us</p>
             <p>Guide</p>
-            <p>Login</p>
+             <p onClick={() => navigate("/login")}>Login</p>
             <div className="counsellor-signup">
-              <p>SignUp</p>
+              <p onClick={() => navigate("/Signup")}>SignUp</p>
             </div>
           </div>
         </div>
@@ -105,12 +68,6 @@ const showDashboard = location.pathname === "/counsellor";
           <Outlet/>
           {showDashboard && (
             <div className="dashboard-page">
-              <div className="text-section">
-                <p className="dashboard-quote">
-                  "All data is 100% anonymous and aggregated to protect student
-                  privacy."
-                </p>
-              </div>
 
               <div className="dashboard-row">
                 <div className="dashboard-cards">
@@ -119,9 +76,12 @@ const showDashboard = location.pathname === "/counsellor";
                     return (
                       <div key={idx} className="dashboard-card">
                         <div className="dashboard-card-right">
+                          <div className="dashboard-card-left">
+                          <Icon className="icon" size={36} />
+                        </div>
                           <p className="dashboard-card-title">{item.title}</p>
                           <p className="dashboard-card-number">{item.value}</p>
-
+ 
                           <span
                             className={`dashboard-card-subtext ${
                               item.trend === "up" ? "positive" : "negative"
@@ -130,32 +90,43 @@ const showDashboard = location.pathname === "/counsellor";
                             {item.change}
                           </span>
                         </div>
-                        <div className="dashboard-card-left">
-                          <Icon className="icon" size={36} />
-                        </div>
+                        
                       </div>
                     );
                   })}
                 </div>
 
-                <div className="sessions-box">
+                <div className="below-section">
+                  <div className="sessions-box">
                   <h2 className="sessions-title">Today's Sessions</h2>
                   <div className="sessions-list">
-                    {todaysSessions.map((session) => (
-                      <div key={session.id} className="session-card">
+                    <div className="session-card">
                         <div className="session-box-item">
                           <div className="right-side-session-box">
-                            <h3>{session.patientName}</h3>
-                            <p>{session.type}</p>
+                            <h3>Pending</h3>
+                            <p>Stress Session</p>
                           </div>
                           <div className="left-side-session-box">
-                            <span className="time">{session.time}</span>
-                            <span className="stage">{session.stage}</span>
+                            <span className="time">3:30 PM</span>
+                            <span className="stage">02-06-2025</span>
                           </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                      <div className="session-card">
+                        <div className="session-box-item">
+                          <div className="right-side-session-box">
+                            <h3>Pending</h3>
+                            <p>Stress Session</p>
+                          </div>
+                          <div className="left-side-session-box">
+                            <span className="time">3:30 PM</span>
+                            <span className="stage">02-06-2025</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
                 </div>
                 <div className="insights-card">
                   <div className="insights-header">
@@ -176,6 +147,7 @@ const showDashboard = location.pathname === "/counsellor";
                       <span>4.8/5</span>
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
