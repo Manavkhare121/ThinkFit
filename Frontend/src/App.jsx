@@ -1,19 +1,20 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Navbar from "./Components/AdminPage/NavbarForAdmin/Navbar.jsx";
-import CounsellorNavbarPage from "./Components/CounsellorPage/CounsellorPageNavbar/CounsellorPageNavbar.jsx";
-import UserNavbar from "./Components/UserPage/UserNavbar/UserNavbar.jsx";
-import LoginPage from "./Components/LoginPage/LoginPage.jsx";
-import SignupPage from "./Components/SignUp/SignUp.jsx";
+import Navbar from "./Pages/UserPage/UserNavbar/UserNavbar.jsx";
+import CounsellorNavbarPage from "./Pages/CounsellorPage/CounsellorPageNavbar/CounsellorPageNavbar.jsx";
+import UserNavbar from "./Pages/UserPage/UserNavbar/UserNavbar.jsx";
+import LoginPage from "./Pages/Auth/LoginPage/LoginPage.jsx";
+import SignupPage from "./Pages/Auth/SignUp/SignUp.jsx";
 import Mainpage from './Components/Mainpage/Mainpage.jsx'
-import Appointment from "./Components/UserPage/BookingAppointment/BookingAppointment.jsx"
-import Dashboard from "./Components/AdminPage/DashboardForAdmin/Dashboard.jsx";
-import Chatbot from "./Components/UserPage/ChatbotPage/Chatbot.jsx"
-import Resource from "./Components/UserPage/ResourcePage/Resource.jsx";
-import Chatting from "./Components/UserPage/ChatWithCounsellor/Chatting.jsx"
-import CounsellorChatting from './Components/CounsellorPage/CounsellorPageChatting/CounsellorPage.jsx'
-import CounsellorBookingPage from './Components/CounsellorPage/CounsellorPageBooking/CounsellorPageBooking.jsx'
-import Admin from './Components/AdminPage/NavbarForAdmin/Navbar.jsx'
+import Appointment from "./Pages/UserPage/BookingAppointment/BookingAppointment.jsx"
+import Chatbot from "./Pages/UserPage/ChatbotPage/Chatbot.jsx"
+import Resource from "./Pages/UserPage/ResourcePage/Resource.jsx";
+import Chatting from "./Pages/UserPage/ChatWithCounsellor/Chatting.jsx"
+import CounsellorChatting from './Pages/CounsellorPage/CounsellorPageChatting/CounsellorPage.jsx'
+import CounsellorBookingPage from "./Pages/CounsellorPage/CounsellorPageBooking/CounsellorPageBooking.jsx"
+import Admin from './Pages/AdminPage/NavbarForAdmin/Navbar.jsx'
+import Dashboard from "./Pages/AdminPage/DashboardForAdmin/Dashboard.jsx";
+import AdminCounsellorAddingPage from './Pages/AdminPage/BookingStatus/Booking.jsx'
 function App() {
   return (
     <Routes>
@@ -34,7 +35,7 @@ function App() {
 </Route>
 
 <Route path="/Admin" element={<Admin/>}>
-
+<Route path="Adding" element={<AdminCounsellorAddingPage/>} />
 </Route>
       
     </Routes>

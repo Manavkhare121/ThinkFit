@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useBooking } from "../../ContextAPI/Booking.jsx";
+import { useBooking } from "../../../Components/ContextAPI/Booking.jsx";
 import "./BookingAppointment.css";
 import { useNavigate } from "react-router-dom";
 

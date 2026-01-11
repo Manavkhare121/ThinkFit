@@ -20,13 +20,13 @@ const Sidebar = () => {
 
       <div className="second">
         <div className="second-first">
-          <div className="image1" onClick={() => navigate("/")}>
+          <div className="image1" onClick={() => navigate("/Admin")}>
             <img src={dashboardicon} alt="" />
             {extended && <p>Dashboard</p>}
           </div>
 
           
-          <div className="image1" onClick={() => navigate("/Booking")}>
+          <div className="image1" onClick={() => navigate("Adding")}>
             <img src={Booking} alt="" />
             {extended && <p>Booking Status</p>}
           </div>

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { FaUser, FaLock, FaFacebookF, FaGoogle, FaTwitter } from 'react-icons/fa';
 import "./LoginPage.css";
-import StudentImage from '../../assets/Student image.webp'; // Ensure path is correct
+import StudentImage from "../../../assets/Student image.webp"
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
