@@ -15,5 +15,8 @@ app.use("/api/counsellor",CounsellorRoutes)
 import adminRoutes from './routes/admin.routes.js'
 app.use("/api/admin",adminRoutes);
 
+import chatroutes from './routes/chat.routes.js'
+app.use('/api/chat',chatroutes)
+
 
 export default app;
