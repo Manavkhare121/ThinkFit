@@ -1,30 +1,42 @@
 import { Server } from "socket.io";
-import cookie from "cookie";
 import jwt from "jsonwebtoken";
+import cookie from "cookie";
 import { User } from "../models/user.model.js";
 import { generateResponse, generateVectors } from "../services/ai.service.js";
 import { messageModel } from "../models/message.model.js";
 import { createMemory, queryMemory } from "../services/vector.service.js";
+
 function initSocketServer(httpServer) {
   const io = new Server(httpServer, {
-        cors: {
-            origin:"http://localhost:5173",
-            allowedHeaders: [ "Content-Type", "Authorization" ],
-            credentials: true
-        }
-    })
-  // Socket.io auth middleware
+    cors: {
+      origin: "http://localhost:5173",
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+    },
+  });
+
   io.use(async (socket, next) => {
     const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
+    const token = socket.handshake.auth?.token || cookies.token;
 
-    if (!cookies.token) {
+    if (!token) {
       return next(new Error("Authentication error: No token Provided"));
     }
 
     try {
-      const decoded = jwt.verify(cookies.token, process.env.JWT_SECRET);
-      const user = await usermodel.findById(decoded.id);
+      const decoded = jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET
+      );
+
+      const user = await User.findById(decoded._id);
+
+      if (!user) {
+        return next(new Error("Authentication error: User not found"));
+      }
+
       socket.user = user;
+
       next();
     } catch (error) {
       next(new Error("Authentication error: Invalid token"));
@@ -32,10 +44,7 @@ function initSocketServer(httpServer) {
   });
 
   io.on("connection", (socket) => {
-    console.log("New socket connection:", socket.id);
-    console.log("user connected",socket.user._id)
     socket.on("ai-message", async (messagePayload) => {
-      console.log(messagePayload);
       const [message, vectors] = await Promise.all([
         messageModel.create({
           chat: messagePayload.chat,
@@ -64,11 +73,8 @@ function initSocketServer(httpServer) {
             user: socket.user._id,
           },
         }),
-
         messageModel
-          .find({
-            chat: messagePayload.chat,
-          })
+          .find({ chat: messagePayload.chat })
           .sort({ createdAt: -1 })
           .limit(20)
           .lean()
@@ -81,20 +87,18 @@ function initSocketServer(httpServer) {
 
       const ltm = [
         {
-          role: "user", 
+          role: "user",
           parts: [
             {
               text: `
-            these are some previous messages from the chat, use them to generate a response
+these are some previous messages from the chat, use them to generate a response
 
-                        ${memory.map((item) => item.metadata.text).join("\n")}`,
+${memory.map((item) => item.metadata.text).join("\n")}
+`,
             },
           ],
         },
       ];
-
-      console.log(ltm[0]);
-      console.log(stm);
 
       const response = await generateResponse([...ltm, ...stm]);
 
@@ -102,6 +106,7 @@ function initSocketServer(httpServer) {
         content: response,
         chat: messagePayload.chat,
       });
+
       const [responseMessage, responseVectors] = await Promise.all([
         messageModel.create({
           chat: messagePayload.chat,
