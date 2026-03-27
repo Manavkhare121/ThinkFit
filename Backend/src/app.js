@@ -18,5 +18,6 @@ app.use("/api/admin",adminRoutes);
 import chatroutes from './routes/chat.routes.js'
 app.use('/api/chat',chatroutes)
 
-
+import bookingRoutes from './routes/booking.routes.js'
+app.use('/api/booking',bookingRoutes)
 export default app;

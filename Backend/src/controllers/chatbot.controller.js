@@ -46,4 +46,18 @@ async function getMessages(req, res) {
 
 }
 
-export {createchat,getMessages,getChats}
+async function createMessageChat(req, res) {
+  const { counsellorId } = req.body;
+  const userId = req.user._id;
+
+  const chat = await chatmodel.create({
+    users: [userId, counsellorId],
+    type: "human",
+  });
+
+  res.status(201).json({
+    message: "Chat created",
+    chat
+  });
+}
+export {createchat,getMessages,getChats,createMessageChat}

@@ -5,12 +5,12 @@ import {
   logoutAdmin
 } from "../controllers/admin.controller.js";
 
-import { verifyAdminJWT } from "../middleware/auth.middleware.js";
+import { verifyJWT} from "../middleware/auth.middleware.js";
 
 const router = Router();
 
 router.post("/register", registerAdmin);
 router.post("/login", loginAdmin);
-router.post("/logout", verifyAdminJWT, logoutAdmin);
+router.post("/logout", verifyJWT, logoutAdmin);
 
 export default router;

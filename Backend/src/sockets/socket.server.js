@@ -1,3 +1,139 @@
+// import { Server } from "socket.io";
+// import jwt from "jsonwebtoken";
+// import cookie from "cookie";
+// import { User } from "../models/user.model.js";
+// import { generateResponse, generateVectors } from "../services/ai.service.js";
+// import { messageModel } from "../models/message.model.js";
+// import { createMemory, queryMemory } from "../services/vector.service.js";
+
+// function initSocketServer(httpServer) {
+//   const io = new Server(httpServer, {
+//     cors: {
+//       origin: "http://localhost:5173",
+//       allowedHeaders: ["Content-Type", "Authorization"],
+//       credentials: true,
+//     },
+//   });
+
+//   io.use(async (socket, next) => {
+//     const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
+//     const token = socket.handshake.auth?.token || cookies.token;
+
+//     if (!token) {
+//       return next(new Error("Authentication error: No token Provided"));
+//     }
+
+//     try {
+//       const decoded = jwt.verify(
+//         token,
+//         process.env.ACCESS_TOKEN_SECRET
+//       );
+
+//       const user = await User.findById(decoded._id);
+
+//       if (!user) {
+//         return next(new Error("Authentication error: User not found"));
+//       }
+
+//       socket.user = user;
+
+//       next();
+//     } catch (error) {
+//       next(new Error("Authentication error: Invalid token"));
+//     }
+//   });
+
+//   io.on("connection", (socket) => {
+//     socket.on("ai-message", async (messagePayload) => {
+//       const [message, vectors] = await Promise.all([
+//         messageModel.create({
+//           chat: messagePayload.chat,
+//           user: socket.user._id,
+//           content: messagePayload.content,
+//           role: "User",
+//         }),
+//         generateVectors(messagePayload.content),
+//       ]);
+
+//       await createMemory({
+//         vectors,
+//         messageId: message._id,
+//         metadata: {
+//           chat: messagePayload.chat,
+//           user: socket.user._id,
+//           text: messagePayload.content,
+//         },
+//       });
+
+//       const [memory, chathistory] = await Promise.all([
+//         queryMemory({
+//           queryVector: vectors,
+//           limit: 3,
+//           metadata: {
+//             user: socket.user._id,
+//           },
+//         }),
+//         messageModel
+//           .find({ chat: messagePayload.chat })
+//           .sort({ createdAt: -1 })
+//           .limit(20)
+//           .lean()
+//           .then((messages) => messages.reverse()),
+//       ]);
+
+//       const stm = chathistory.map((item) => {
+//         return { role: item.role, parts: [{ text: item.content }] };
+//       });
+
+//       const ltm = [
+//         {
+//           role: "user",
+//           parts: [
+//             {
+//               text: `
+// these are some previous messages from the chat, use them to generate a response
+
+// ${memory.map((item) => item.metadata.text).join("\n")}
+// `,
+//             },
+//           ],
+//         },
+//       ];
+
+//       const response = await generateResponse([...ltm, ...stm]);
+
+//       socket.emit("ai-response", {
+//         content: response,
+//         chat: messagePayload.chat,
+//       });
+
+//       const [responseMessage, responseVectors] = await Promise.all([
+//         messageModel.create({
+//           chat: messagePayload.chat,
+//           user: socket.user._id,
+//           content: response,
+//           role: "model",
+//         }),
+//         generateVectors(response),
+//       ]);
+
+//       await createMemory({
+//         vectors: responseVectors,
+//         messageId: responseMessage._id,
+//         metadata: {
+//           chat: messagePayload.chat,
+//           user: socket.user._id,
+//           text: response,
+//         },
+//       });
+//     });
+//   });
+// }
+
+// export default initSocketServer;
+
+
+
 import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
@@ -5,6 +141,7 @@ import { User } from "../models/user.model.js";
 import { generateResponse, generateVectors } from "../services/ai.service.js";
 import { messageModel } from "../models/message.model.js";
 import { createMemory, queryMemory } from "../services/vector.service.js";
+import { chatmodel } from "../models/chatbot.model.js"; // ✅ ADD THIS
 
 function initSocketServer(httpServer) {
   const io = new Server(httpServer, {
@@ -26,7 +163,7 @@ function initSocketServer(httpServer) {
     try {
       const decoded = jwt.verify(
         token,
-        process.env.ACCESS_TOKEN_SECRET
+        process.env.REFRESH_TOKEN_SECRET
       );
 
       const user = await User.findById(decoded._id);
@@ -44,13 +181,17 @@ function initSocketServer(httpServer) {
   });
 
   io.on("connection", (socket) => {
+
+    // =========================
+    // 🤖 AI CHAT (UNCHANGED)
+    // =========================
     socket.on("ai-message", async (messagePayload) => {
       const [message, vectors] = await Promise.all([
         messageModel.create({
           chat: messagePayload.chat,
           user: socket.user._id,
           content: messagePayload.content,
-          role: "User",
+          role: "user",
         }),
         generateVectors(messagePayload.content),
       ]);
@@ -112,7 +253,7 @@ ${memory.map((item) => item.metadata.text).join("\n")}
           chat: messagePayload.chat,
           user: socket.user._id,
           content: response,
-          role: "model",
+          role: "ai",
         }),
         generateVectors(response),
       ]);
@@ -127,6 +268,52 @@ ${memory.map((item) => item.metadata.text).join("\n")}
         },
       });
     });
+
+    // =========================
+    // 👥 HUMAN CHAT (NEW CODE)
+    // =========================
+
+    // 🔹 Join Room
+    socket.on("join-chat", async (chatId) => {
+      const chat = await chatmodel.findById(chatId);
+
+      if (!chat) return;
+
+      const isUserInChat = chat.users.some(
+        (id) => id.toString() === socket.user._id.toString()
+      );
+
+      if (!isUserInChat) return;
+
+      socket.join(chatId);
+
+      console.log("User joined room:", chatId);
+    });
+
+    // 🔹 Send Message
+    socket.on("send-message", async (payload) => {
+
+      const chat = await chatmodel.findById(payload.chat);
+
+      if (!chat) return;
+
+      const isUserInChat = chat.users.some(
+        (id) => id.toString() === socket.user._id.toString()
+      );
+
+      if (!isUserInChat) return;
+
+      const message = await messageModel.create({
+        chat: payload.chat,
+        sender: socket.user._id,
+        content: payload.content,
+        role: payload.role, // "user" or "counsellor"
+      });
+
+      // 🔥 Send to room
+      io.to(payload.chat).emit("receive-message", message);
+    });
+
   });
 }
 
