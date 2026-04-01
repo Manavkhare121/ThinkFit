@@ -27,7 +27,7 @@ const chatSchema = new Schema({
     }
   ],
 
-  type: {   // ✅ AI vs HUMAN
+  type: {
     type: String,
     enum: ["ai", "human"],
     default: "ai"

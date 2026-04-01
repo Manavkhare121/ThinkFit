@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Admin } from "../models/admin.model.js";
+import { getAdminDashboardService } from "../services/admin.service.js";
 
 const generateAccessandRefreshToken = async (adminId) => {
   try {
@@ -124,6 +125,16 @@ const logoutAdmin = asyncHandler(async (req, res) => {
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "Admin logged out"));
+});
+
+
+
+export const getAdminDashboard = asyncHandler(async (req, res) => {
+  const data = await getAdminDashboardService();
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, data, "Admin Dashboard Data"));
 });
 
 export {

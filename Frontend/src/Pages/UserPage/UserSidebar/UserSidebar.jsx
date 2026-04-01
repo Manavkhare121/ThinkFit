@@ -69,7 +69,7 @@ const UserSidebar = () => {
           </div>
           <div
             className="user-sidebar-logout"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/")}
           >
             <img src={Logouticon} alt="logout" />
             {expanded && <p>Logout</p>}

@@ -3,8 +3,8 @@ import "./App.css";
 import Navbar from "./Pages/UserPage/UserNavbar/UserNavbar.jsx";
 import CounsellorNavbarPage from "./Pages/CounsellorPage/CounsellorPageNavbar/CounsellorPageNavbar.jsx";
 import UserNavbar from "./Pages/UserPage/UserNavbar/UserNavbar.jsx";
-import LoginPage from "./Pages/Auth/LoginPage/LoginPage.jsx";
-import SignupPage from "./Pages/Auth/SignUp/SignUp.jsx";
+import UserLoginPage from "./Pages/Auth/LoginPage/UserLoginPage.jsx";
+import SignupPage from "./Pages/Auth/SignUp/UserSignUp.jsx";
 import Mainpage from './Components/Mainpage/Mainpage.jsx'
 import Appointment from "./Pages/UserPage/BookingAppointment/BookingAppointment.jsx"
 import Chatbot from "./Pages/UserPage/ChatbotPage/Chatbot.jsx"
@@ -18,8 +18,8 @@ import AdminCounsellorAddingPage from './Pages/AdminPage/BookingStatus/Booking.j
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/Signup" element={<SignupPage/>}/>
+      <Route path="/Userlogin" element={<UserLoginPage />} />
+      <Route path="/UserSignup" element={<SignupPage/>}/>
       <Route path="/" element={<Mainpage/>} />
       <Route path="/user/*" element={<UserNavbar />}>
     <Route path="appointment" element={<Appointment />} />

@@ -20,7 +20,7 @@ export const getUserBookings = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, bookings));
 });
 
-export const getAllBookings = asyncHandler(async (req, res) => {
+export const getAllBookings = asyncHandler(async (areq, res) => {
   const bookings = await getAllBookingsService();
 
   res.status(200).json(new ApiResponse(200, bookings));
