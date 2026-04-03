@@ -1,0 +1,184 @@
+.admin-signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #0C7FDA;
+    font-family: sans-serif;
+    padding: 1rem;
+}
+
+.admin-signup-card {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s;
+}
+
+.admin-signup-card:hover {
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+}
+
+.admin-signup-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.admin-signup-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin: 0 auto 1.5rem;
+}
+
+.admin-signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.admin-input-group {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.admin-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #888;
+    width: 20px;
+    height: 20px;
+}
+
+.admin-input-field {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.admin-input-field:focus {
+    border-color: #0C7FDA;
+}
+
+.admin-input-error {
+    border-color: red;
+}
+
+.admin-signup-btn {
+    width: 90%;
+    margin: 0 auto;
+    padding: 12px;
+    background: linear-gradient(to right, #FF6B6B, #FF4F4F);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-signup-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.admin-divider {
+    position: relative;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.admin-divider::before,
+.admin-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #ccc;
+}
+
+.admin-divider::before {
+    left: 0;
+}
+
+.admin-divider::after {
+    right: 0;
+}
+
+.admin-divider span {
+    background: white;
+    padding: 0 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.admin-social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.admin-social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.admin-social-btn:hover {
+    transform: scale(1.1);
+    background: #f9f9f9;
+}
+
+.admin-social-btn.admin-facebook svg {
+    color: #1877f2;
+}
+
+.admin-social-btn.admin-google svg {
+    color: #db4437;
+}
+
+.admin-social-btn.admin-twitter svg {
+    color: #1da1f2;
+}
+
+/* LOGIN LINK SECTION */
+.admin-login-section {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #666;
+}
+  
+.admin-login-link-btn {
+    color: #0C7FDA; 
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 5px;
+    transition: color 0.2s;
+}
+  
+.admin-login-link-btn:hover {
+    color: #005bb5;
+    text-decoration: underline;
+}

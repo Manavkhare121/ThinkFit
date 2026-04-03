@@ -175,7 +175,7 @@ const Mainpage = () => {
                         <span>Session scheduling</span>
                       </div>
                     </div>
-                    <Link to="/Userlogin">
+                    <Link to="/Counsellorlogin">
                       <button className="cta-btn">
                         Continue as Counsellor
                       </button>
@@ -207,7 +207,7 @@ const Mainpage = () => {
           <span>Ensure security & compliance</span>
         </div>
       </div>
-      <Link to="/Userlogin">
+      <Link to="/AdminLogin">
         <button className="cta-btn">Continue as Admin</button>
       </Link>
     </div>

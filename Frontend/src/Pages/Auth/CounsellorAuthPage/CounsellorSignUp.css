@@ -1,0 +1,183 @@
+.counsellor-signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #0C7FDA;
+    font-family: sans-serif;
+    padding: 1rem;
+}
+
+.counsellor-signup-card {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s;
+}
+
+.counsellor-signup-card:hover {
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+}
+
+.counsellor-signup-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.counsellor-signup-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin: 0 auto 1.5rem;
+}
+
+.counsellor-signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.counsellor-input-group {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.counsellor-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #888;
+    width: 20px;
+    height: 20px;
+}
+
+.counsellor-input-field {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.counsellor-input-field:focus {
+    border-color: #0C7FDA;
+}
+
+.counsellor-input-error {
+    border-color: red;
+}
+
+.counsellor-signup-btn {
+    width: 90%;
+    margin: 0 auto;
+    padding: 12px;
+    background: linear-gradient(to right, #FF6B6B, #FF4F4F);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.counsellor-signup-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.counsellor-divider {
+    position: relative;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.counsellor-divider::before,
+.counsellor-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #ccc;
+}
+
+.counsellor-divider::before {
+    left: 0;
+}
+
+.counsellor-divider::after {
+    right: 0;
+}
+
+.counsellor-divider span {
+    background: white;
+    padding: 0 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.counsellor-social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.counsellor-social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.counsellor-social-btn:hover {
+    transform: scale(1.1);
+    background: #f9f9f9;
+}
+
+.counsellor-social-btn.counsellor-facebook svg {
+    color: #1877f2;
+}
+
+.counsellor-social-btn.counsellor-google svg {
+    color: #db4437;
+}
+
+.counsellor-social-btn.counsellor-twitter svg {
+    color: #1da1f2;
+}
+
+.counsellor-login-section {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #666;
+}
+  
+.counsellor-login-link-btn {
+    color: #0C7FDA; 
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 5px;
+    transition: color 0.2s;
+}
+  
+.counsellor-login-link-btn:hover {
+    color: #005bb5;
+    text-decoration: underline;
+}
