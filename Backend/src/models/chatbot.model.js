@@ -29,8 +29,8 @@ const chatSchema = new Schema({
 
   type: {
     type: String,
-    enum: ["ai", "human"],
-    default: "ai"
+    enum: ["model", "human"],
+    default: "model"
   },
 
   title: {

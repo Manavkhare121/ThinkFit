@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./UserSidebar.css";
 import dashboardicon from "../../../assets/Homepageicon.png";
 import Logouticon from "../../../assets/Logouticon.png";
@@ -8,11 +9,28 @@ import ThinkFitimage from "../../../assets/ThinkFitimage.png";
 import settingIcon from "../../../assets/settingIcon.png";
 import Booking from "../../../assets/Booking.png";
 import Chatbot from "../../../assets/Chatbot.png";
-import Guide from "../../../assets/Guideicon.png"
+import Guide from "../../../assets/Guideicon.png";
+
 
 const UserSidebar = () => {
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/api/users/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      navigate("/");
+    } catch (error) {
+      console.error("Error logging out:", error.response?.data || error.message);
+      navigate("/");
+    }
+  };
 
   return (
     <div
@@ -51,8 +69,8 @@ const UserSidebar = () => {
             {expanded && <p> Appointment</p>}
           </div>
 
-           <div className="user-sidebar-item"  onClick={() => navigate("/user/Resource")}>
-            <img  src={Guide} alt="ResourcePage" height="5px" />
+          <div className="user-sidebar-item" onClick={() => navigate("/user/Resource")}>
+            <img src={Guide} alt="ResourcePage" height="5px" />
             {expanded && <p>Resources</p>}
           </div>
 
@@ -67,9 +85,11 @@ const UserSidebar = () => {
             <img src={themeicon} alt="theme" />
             {expanded && <p>Dark Theme</p>}
           </div>
+
           <div
             className="user-sidebar-logout"
-            onClick={() => navigate("/")}
+            onClick={handleLogout}
+            style={{ cursor: "pointer" }}
           >
             <img src={Logouticon} alt="logout" />
             {expanded && <p>Logout</p>}
@@ -80,4 +100,4 @@ const UserSidebar = () => {
   );
 };
 
-export default UserSidebar;
+export default UserSidebar; 

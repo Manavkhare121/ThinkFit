@@ -41,7 +41,7 @@ const messageSchema = new Schema({
 
   role: {
     type: String,
-    enum: ["user", "counsellor", "ai"],
+    enum: ["user", "counsellor", "model"],
     default: "user"
   }
 

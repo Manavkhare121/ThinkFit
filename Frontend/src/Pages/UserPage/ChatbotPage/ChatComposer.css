@@ -1,0 +1,36 @@
+.search-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #0C7FDA;
+  border-radius: 3.66px;
+  padding: 0.5rem;
+  width: 95%;
+  margin: 0 auto 1rem auto;
+}
+
+.search input {
+  width: 100%;
+  font-size: 1.1rem;
+  color:black;
+  background-color: #0C7FDA;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search input::placeholder {
+  color: white;
+}
+
+.search-img {
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+
+.search-img i {
+  rotate: 45deg;
+  color: #fff;
+}

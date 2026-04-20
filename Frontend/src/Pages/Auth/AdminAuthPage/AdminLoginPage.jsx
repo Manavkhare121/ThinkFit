@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { FaUser, FaLock, FaFacebookF, FaGoogle, FaTwitter } from 'react-icons/fa';
-import "./AdminLoginPage.css"; // reuse same CSS
+import "./AdminLoginPage.css";
 import StudentImage from "../../../assets/Student image.webp";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -14,7 +14,7 @@ const AdminLoginPage = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/admin/login", // ✅ admin endpoint
+        "http://localhost:3000/api/admin/login",
         {
           email: data.email,
           password: data.password,
@@ -26,15 +26,11 @@ const AdminLoginPage = () => {
 
       toast.success("Admin Login successful 🎉");
 
-      
       localStorage.setItem("isAdminLoggedIn", true);
-
-     
       navigate("/Admin");
 
     } catch (error) {
       console.error(error);
-
       toast.error(
         error?.response?.data?.message || "Invalid admin credentials ❌"
       );
@@ -42,72 +38,77 @@ const AdminLoginPage = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">Welcome Admin!</h1>
+    <div className="admin-login-container">
+      <div className="admin-login-card">
+        <h1 className="admin-login-title">Welcome Admin!</h1>
 
         <img
           src={StudentImage}
           alt="Login"
-          className="login-image"
+          className="admin-login-image"
         />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+        <form onSubmit={handleSubmit(onSubmit)} className="admin-login-form">
 
           {/* Email */}
-          <div className="input-wrapper">
-            <FaUser className="input-icon" />
+          <div className="admin-input-wrapper">
+            <FaUser className="admin-input-icon" />
             <input
               type="text"
               placeholder="Email"
               {...register('email', { required: 'Email is required' })}
-              className={`login-input ${errors.email ? 'error' : ''}`}
+              className={`admin-login-input ${errors.email ? 'error' : ''}`}
             />
           </div>
 
-          {errors.email && <p className="error-text">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="error-text">{errors.email.message}</p>
+          )}
 
-          <div className="input-wrapper">
-            <FaLock className="input-icon" />
+          {/* Password */}
+          <div className="admin-input-wrapper">
+            <FaLock className="admin-input-icon" />
             <input
               type="password"
               placeholder="Password"
               {...register('password', { required: 'Password is required' })}
-              className={`login-input ${errors.password ? 'error' : ''}`}
+              className={`admin-login-input ${errors.password ? 'error' : ''}`}
             />
           </div>
 
-          {errors.password && <p className="error-text">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="error-text">{errors.password.message}</p>
+          )}
 
-          <div className="remember-forgot">
-            <label className="remember-label">
+          <div className="admin-remember-forgot">
+            <label className="admin-remember-label">
               <input type="checkbox" {...register('rememberMe')} />
               <span>Remember me</span>
             </label>
 
-            <a href="#" className="forgot-link">Forgot Password?</a>
+            <a href="#" className="admin-forgot-link">Forgot Password?</a>
           </div>
 
-          <button type="submit" className="login-btn">
+          <button type="submit" className="admin-login-btn">
             Login
           </button>
 
         </form>
-        <div className="divider">
+
+        <div className="admin-divider">
           <span>or</span>
         </div>
 
-        <div className="social-buttons">
-          <button className="social-btn facebook"><FaFacebookF /></button>
-          <button className="social-btn google"><FaGoogle /></button>
-          <button className="social-btn twitter"><FaTwitter /></button>
+        <div className="admin-social-buttons">
+          <button className="admin-social-btn admin-facebook"><FaFacebookF /></button>
+          <button className="admin-social-btn admin-google"><FaGoogle /></button>
+          <button className="admin-social-btn admin-twitter"><FaTwitter /></button>
         </div>
 
-       
-        <div className="signup-section">
+        <div className="admin-signup-section">
           <p>
-            Don't have an account? 
-            <a href="/AdminSignup" className="signup-link-btn"> Sign up</a>
+            Don't have an account?
+            <a href="/AdminSignup" className="admin-signup-link-btn"> Sign up</a>
           </p>
         </div>
 

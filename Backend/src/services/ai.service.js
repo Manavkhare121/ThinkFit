@@ -8,9 +8,33 @@ const ai = new GoogleGenAI({
 });
 
 async function generateResponse(content) {
+  // normalize input to the format expected by Google GenAI
+  // ensure we have an array of messages with supported role values
+  const contentsArray = Array.isArray(content)
+    ? content
+    : [
+        {
+          role: "user",
+          parts: [{ text: content }],
+        },
+      ];
+
+  const normalizedContents = contentsArray.map((item) => {
+    const roleRaw = (item.role || "").toString().toLowerCase();
+    // GenAI expects role values like MODEL or USER
+    const role = ["model", "ai", "assistant"].includes(roleRaw)
+      ? "MODEL"
+      : "USER";
+
+    return {
+      ...item,
+      role,
+    };
+  });
+
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: content,
+    contents: normalizedContents,
     config:{
       temperature:0.7,
       systemInstruction: `

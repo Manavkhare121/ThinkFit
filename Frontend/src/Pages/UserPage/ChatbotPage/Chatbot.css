@@ -23,11 +23,13 @@
 }
 
 .text-part{
-    position: absolute;
-    top:45%;
+    
+    top:50%;
+    left:50%;
     margin-right:10rem;
     font-size: 1rem;
     color:#000;
+    transform: translate(-10px,-150px);
 }
 .text-part p{
     font-size: 0.8rem;
@@ -53,35 +55,18 @@
 }
 
 .search-box{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
     background-color: #0C7FDA;
     border-radius: 3.66px;
     padding:0.8rem;
-    width:95%;
     margin: 0 auto 1rem auto;
 }
 .search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-   
 }
 
-.search input{
-    width: 100%;
-    font-size: 1.1rem;
-    color:#000;
-    background-color: #0C7FDA;
-    border:none;
-    outline:none;
-    box-shadow: none;
-    caret-color: transparent;
-    
-}
-
-.search input::placeholder{
-    color:white;
-}
 .search-img {
     display: flex;
     align-items: center;

@@ -13,7 +13,7 @@
   background: #fff;
   width: 100%;
   max-width: 400px;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   text-align: center;
@@ -64,7 +64,7 @@
   border: 2px solid #ccc;
   border-radius: 10px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
 
 .admin-login-input:focus {
@@ -72,7 +72,29 @@
 }
 
 .admin-login-input.error {
-  border-color: red;
+  border-color: #ff4d4f;
+  background-color: #fff5f5;
+}
+
+.error-text {
+  width: 90%;
+  margin: 4px auto 0;
+  font-size: 0.85rem;
+  color: #ff4d4f;
+  text-align: left;
+  padding-left: 5px;
+  font-weight: 500;
+
+  opacity: 0;
+  transform: translateY(-5px);
+  animation: fadeInError 0.3s ease forwards;
+}
+
+@keyframes fadeInError {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .admin-remember-forgot {

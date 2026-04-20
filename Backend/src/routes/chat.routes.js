@@ -1,15 +1,13 @@
 import { Router } from "express";
 import { verifyJWT } from "../middleware/auth.middleware.js";
-import { createchat,getMessages,getChats,createMessageChat} from "../controllers/chatbot.controller.js";
-const router=Router();
+import { createchat, getMessages, getChats, createMessageChat, deleteChat } from "../controllers/chatbot.controller.js";
 
-router.post("/",verifyJWT,createchat)
-router.get('/', verifyJWT,getChats)
+const router = Router();
 
-
-/* GET /api/chat/messages/:id */
-router.get('/messages/:id', verifyJWT, getMessages)
-
-router.post("/create-message-chat",verifyJWT, createMessageChat);
+router.post("/", verifyJWT, createchat);
+router.get('/', verifyJWT, getChats);
+router.get('/messages/:id', verifyJWT, getMessages);
+router.delete('/:id', verifyJWT, deleteChat);
+router.post("/create-message-chat", verifyJWT, createMessageChat);
 
 export default router;

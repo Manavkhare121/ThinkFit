@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./CounsellorPageSidebar.css";
 import dashboardicon from "../../../assets/Homepageicon.png";
 import Logouticon from "../../../assets/Logouticon.png";
@@ -9,9 +10,26 @@ import settingIcon from "../../../assets/settingIcon.png";
 import Booking from "../../../assets/Booking.png"
 import message from '../../../assets/chatbot.png'
 
+
 const CounsellorPageSidebar = () => {
   const [extended, setExtended] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/api/counsellors/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      navigate("/");
+    } catch (error) {
+      console.error("Error logging out:", error.response?.data || error.message);
+      navigate("/");
+    }
+  };
 
   return (
     <div
@@ -45,8 +63,7 @@ const CounsellorPageSidebar = () => {
           </div>
           <div
             className="counsellor-sidebar-item"
-            onClick={()=>navigate("/counsellor/booking")}
-            
+            onClick={() => navigate("/counsellor/booking")}
           >
             <img src={Booking} alt="booking" />
             {extended && <p>Session Status</p>}
@@ -63,7 +80,11 @@ const CounsellorPageSidebar = () => {
             <img src={themeicon} alt="theme" />
             {extended && <p>Dark Theme</p>}
           </div>
-          <div className="counsellor-sidebar-logout" onClick={() => navigate("/login")}>
+          <div 
+            className="counsellor-sidebar-logout" 
+            onClick={handleLogout}
+            style={{ cursor: "pointer" }}
+          >
             <img src={Logouticon} alt="logout" />
             {extended && <p>Logout</p>}
           </div>

@@ -1,0 +1,41 @@
+.chat-right {
+  background-color: #c5dae1;
+  width: 15%;
+  height: 100%;
+  border-radius: 3.66px;
+  overflow-y: auto;
+}
+
+.new-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0C7FDA;
+  margin: 1rem;
+  color: white;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 3.66px;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.new-chat-show {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0C7FDA;
+  margin: 1rem;
+  padding: 10px;
+  border-radius: 3.66px;
+  cursor: pointer;
+}
+
+.new-chat-show.active {
+  border: 2px solid #000;
+}
+
+.new-chat-show-text p {
+  color: white;
+  font-size: 0.9rem;
+}
