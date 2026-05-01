@@ -12,7 +12,7 @@ const ChatMessages = ({ messages, isSending }) => {
     <div className="chat-messages">
       {messages.map((msg, index) => (
         <div
-          key={msg.id || `msg-${index}`} // Uses msg.id first, then fallback
+          key={msg.id || `msg-${index}`}
           className={`chat-bubble ${msg.role}`}
         >
           {msg.content}

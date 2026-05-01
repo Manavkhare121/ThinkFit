@@ -1,26 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useBooking } from "../../../context/AuthContext.jsx";
 import "./BookingAppointment.css";
 import { useNavigate } from "react-router-dom";
 
 const BookingAppointment = () => {
-  const { bookings, addBooking, updateBooking, deleteBooking } = useBooking();
+  // fetchUserBookings aur updateBookingStatus context se nikalein
+  const { bookings, addBooking, updateBookingStatus, deleteBooking, fetchUserBookings } = useBooking();
   const [problem, setProblem] = useState("");
   const [date, setDate] = useState("");
   const [showProblemInput, setShowProblemInput] = useState(false);
   const [showDateInput, setShowDateInput] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  const handleConfirm = () => {
+  // Page load hote hi data fetch karein
+  useEffect(() => {
+    fetchUserBookings();
+  }, []);
+
+  const handleConfirm = async () => {
     if (!problem || !date) return;
 
     if (editIndex !== null) {
-      updateBooking(editIndex, problem, date);
+      // Backend update logic (ID use karein)
+      const bookingId = bookings[editIndex]._id;
+      await updateBookingStatus(bookingId, { problem, date });
       setEditIndex(null);
     } else {
-      addBooking(problem, date);
+      // Nayi booking add karein
+      await addBooking(problem, date);
     }
 
     setProblem("");
@@ -31,7 +40,7 @@ const BookingAppointment = () => {
 
   const handleEdit = (index) => {
     setProblem(bookings[index].problem);
-    setDate(bookings[index].date);
+    setDate(new Date(bookings[index].date).toISOString().split('T')[0]); // Date format fix
     setEditIndex(index);
     setShowProblemInput(true);
     setShowDateInput(true);
@@ -75,13 +84,11 @@ const BookingAppointment = () => {
               <div className="dashboard-box" onClick={() => navigate("/user/Chatting")}>
                 <h1>Chatting</h1>
               </div>
-              
             </div>
             <div className="dashboard-item">
               <div className="dashboard-box" onClick={() => navigate("/user/Chatting")}>
                 <h1>Counsellor</h1>
               </div>
-              
             </div>
           </div>
 
@@ -99,15 +106,17 @@ const BookingAppointment = () => {
           <p className="no-booking">No bookings yet.</p>
         ) : (
           bookings.map((b, i) => (
-            <div key={i} className="booking-entry">
+            <div key={b._id || i} className="booking-entry">
               <div>
                 <p><strong>Problem:</strong> {b.problem}</p>
-                <p><strong>Date:</strong> {b.date}</p>
-                <p><strong>Status:</strong>Pending</p>
+                <p><strong>Date:</strong> {new Date(b.date).toLocaleDateString()}</p>
+                {/* Backend se aayi Status aur Time dikhayein */}
+                <p><strong>Status:</strong> <span className={`status-${b.status}`}>{b.status}</span></p>
+                {b.time && <p><strong>Scheduled Time:</strong> {b.time}</p>}
               </div>
               <div className="booking-actions">
                 <button className="edit-btn" onClick={() => handleEdit(i)}>Edit</button>
-                <button className="delete-btn" onClick={() => deleteBooking(i)}>Delete</button>
+                <button className="delete-btn" onClick={() => deleteBooking(b._id)}>Delete</button>
               </div>
             </div>
           ))
@@ -118,4 +127,3 @@ const BookingAppointment = () => {
 };
 
 export default BookingAppointment;
-

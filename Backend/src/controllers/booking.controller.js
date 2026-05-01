@@ -15,7 +15,10 @@ export const createBooking = asyncHandler(async (req, res) => {
 });
 
 export const getUserBookings = asyncHandler(async (req, res) => {
-  const bookings = await getUserBookingsService(req.user._id);
+  const id = req.user?._id || req.counsellor?._id;
+  const role = req.user ? "user" : req.counsellor ? "counsellor" : null;
+
+  const bookings = await getUserBookingsService(id, role);
 
   res.status(200).json(new ApiResponse(200, bookings));
 });

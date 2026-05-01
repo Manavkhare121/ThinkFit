@@ -13,8 +13,15 @@ export const createBookingService = async (userId, { problem, date }) => {
   });
 };
 
-export const getUserBookingsService = async (userId) => {
-  return await Booking.find({ user: userId });
+export const getUserBookingsService = async (id, role = "user") => {
+  if (!id) return [];
+  if (role === "user") {
+    return await Booking.find({ user: id });
+  } else if (role === "counsellor") {
+    return await Booking.find({ counsellor: id }).populate("user", "username email");
+  } else {
+    return [];
+  }
 };
 
 export const getAllBookingsService = async () => {

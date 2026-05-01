@@ -19,7 +19,6 @@ const Chatbot = () => {
   const [active, setActive] = useState(false);
   const searchRef = useRef(null);
 
-  // 🖱️ Click Outside to Unselect
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -30,7 +29,6 @@ const Chatbot = () => {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
-  // 📡 Initial Sync
   useEffect(() => {
     axios.get(`${BACKEND_URL}/api/chat`, { withCredentials: true })
       .then(res => dispatch(setChats(res.data.chats.reverse())))

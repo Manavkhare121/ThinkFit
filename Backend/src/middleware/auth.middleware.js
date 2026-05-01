@@ -27,23 +27,15 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     let userData = null;
 
     if (decodedToken.role === "user") {
-      userData = await User.findById(decodedToken._id).select(
-        "-password -refreshToken"
-      );
+      userData = await User.findById(decodedToken._id).select("-password -refreshToken");
       req.user = userData;
-    }
-
+    } 
     else if (decodedToken.role === "counsellor") {
-      userData = await Counsellor.findById(decodedToken._id).select(
-        "-password -refreshToken"
-      );
+      userData = await Counsellor.findById(decodedToken._id).select("-password -refreshToken");
       req.counsellor = userData;
-    }
-
+    } 
     else if (decodedToken.role === "admin") {
-      userData = await Admin.findById(decodedToken._id).select(
-        "-password -refreshToken"
-      );
+      userData = await Admin.findById(decodedToken._id).select("-password -refreshToken");
       req.admin = userData;
     }
 
@@ -52,7 +44,6 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     }
 
     next();
-
   } catch (error) {
     throw new ApiError(401, error?.message || "Invalid access token");
   }
@@ -62,27 +53,22 @@ export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     let currentRole = null;
 
-    // detect role based on your existing req structure
     if (req.user) currentRole = "user";
     else if (req.counsellor) currentRole = "counsellor";
     else if (req.admin) currentRole = "admin";
 
-    console.log("USER:", req.user);
-console.log("COUNSELLOR:", req.counsellor);
-console.log("ADMIN:", req.admin);
-console.log("ROLE DETECTED:", currentRole);
+    console.log("ROLE DETECTED:", currentRole);
 
-if (!roles.includes(currentRole)) {
-  throw new ApiError(403, "Access denied");
-}
+    // ✅ Pehle check karo user hai ya nahi
     if (!currentRole) {
       throw new ApiError(401, "Unauthorized");
     }
 
+    // ✅ Fir role match check karo (single check only)
     if (!roles.includes(currentRole)) {
       throw new ApiError(403, "Access denied");
     }
-  
+
     next();
   };
 };

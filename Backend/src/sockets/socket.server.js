@@ -18,10 +18,9 @@ function initSocketServer(httpServer) {
     },
   });
 
-  // --- Auth Middleware (Matching your verifyJWT) ---
   io.use(async (socket, next) => {
     const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
-    // FIX: Using accessToken as found in your logs
+
     const token = socket.handshake.auth?.token || cookies.accessToken;
 
     if (!token) {
@@ -32,7 +31,7 @@ function initSocketServer(httpServer) {
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
       let userData = null;
-      // Detect role and fetch data
+   
       if (decoded.role === "user") {
         userData = await User.findById(decoded._id);
         socket.user = userData;
@@ -57,15 +56,13 @@ function initSocketServer(httpServer) {
 
   io.on("connection", (socket) => {
 
-    // =========================
-    // 🤖 AI CHAT (ORIGINAL LOGIC)
-    // =========================
+   
     socket.on("ai-message", async (messagePayload) => {
       // AI chatbot processing
       const [message, vectors] = await Promise.all([
         messageModel.create({
           chat: messagePayload.chat,
-          sender: socket.user._id, // schema uses sender
+          sender: socket.user._id, 
           content: messagePayload.content,
           role: "user",
         }),
@@ -139,15 +136,10 @@ function initSocketServer(httpServer) {
       });
     });
 
-    // =========================
-    // 👥 HUMAN CHAT (ORIGINAL LOGIC)
-    // =========================
-
     socket.on("join-chat", async (chatId) => {
       const chat = await chatmodel.findById(chatId);
       if (!chat) return;
 
-      // Identify current user ID regardless of role
       const currentId = (socket.user || socket.counsellor || socket.admin)?._id;
       
       const isUserInChat = chat.users.some(

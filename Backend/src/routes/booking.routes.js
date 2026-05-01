@@ -10,10 +10,6 @@ import { verifyJWT, authorizeRoles } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-
-// =========================
-// 👤 USER ROUTES
-// =========================
 router.post(
   "/create",
   verifyJWT,
@@ -24,14 +20,9 @@ router.post(
 router.get(
   "/my",
   verifyJWT,
-  authorizeRoles("user"),
+  authorizeRoles("user","counsellor"),
   getUserBookings
 );
-
-
-// =========================
-// 🧑‍⚕️ COUNSELLOR ROUTES
-// =========================
 
 router.get(
   "/all",

@@ -19,7 +19,7 @@ import { Schema } from "mongoose";
 //     timestamps:true
 // })
 const chatSchema = new Schema({
-  users: [   // ✅ MULTIPLE USERS
+  users: [   
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

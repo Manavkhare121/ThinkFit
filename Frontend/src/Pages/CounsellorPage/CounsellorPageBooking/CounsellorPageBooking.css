@@ -95,3 +95,87 @@
   background-color: #d94343;
   transform: translateY(-2px);
 }
+.appointments-management-panel {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  background-color: #fafafa;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.appointments-management-panel h2 {
+  color: #0c7fda;
+  margin-bottom: 1rem;
+}
+
+/* Purana .booking-entry ab ye hai */
+.appointment-record-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.appointment-record-row:hover {
+  background: #f0f7ff;
+}
+
+.active-row {
+  border-color: #0c7fda;
+  background: #eef7ff;
+}
+
+.record-info p {
+  margin: 0;
+}
+
+/* Purana .edit-btn ab ye hai */
+.select-action-btn {
+  background: #ff9800;
+  border: none;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.select-action-btn:hover {
+  background: #e68900;
+}
+
+.no-appointments-msg {
+  color: gray;
+  font-style: italic;
+}
+
+.dashboard-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.record-actions-area {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Agar delete button use karein toh .remove-action-btn use kar sakte hain */
+.remove-action-btn {
+  background: #ee5353;
+  border: none;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-action-btn:hover {
+  background: #d63f3f;
+}
