@@ -3,7 +3,8 @@ import {
   createBooking,
   getUserBookings,
   getAllBookings,
-  updateBooking
+  updateBooking,
+  deleteBooking
 } from "../controllers/booking.controller.js";
 
 import { verifyJWT, authorizeRoles } from "../middleware/auth.middleware.js";
@@ -36,6 +37,13 @@ router.put(
   verifyJWT,
   authorizeRoles("counsellor"),
   updateBooking
+);
+
+router.delete(
+  "/delete/:bookingId",
+  verifyJWT,
+  authorizeRoles("user"), 
+  deleteBooking
 );
 
 

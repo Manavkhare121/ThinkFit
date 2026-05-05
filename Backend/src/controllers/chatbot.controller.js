@@ -19,21 +19,28 @@ async function createchat(req, res) {
 }
 
 // 2. Get All Chats for User
-async function getChats(req, res) {
-    const userId = req.user._id;
-    // Find chats where user is in the 'users' array
-    const chats = await chatmodel.find({ users: userId });
+const getChats = async (req, res) => {
+  const userId =
+    req.user?._id ||
+    req.counsellor?._id ||
+    req.admin?._id;
 
-    res.status(200).json({
-        message: "Chats retrieved successfully",
-        chats: chats.map(chat => ({
-            _id: chat._id,
-            title: chat.title,
-            lastActivity: chat.lastActivity,
-            users: chat.users
-        }))
-    });
-}
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const chats = await chatmodel.find({ users: userId });
+
+  res.status(200).json({
+    message: "Chats retrieved successfully",
+    chats: chats.map(chat => ({
+      _id: chat._id,
+      title: chat.title,
+      lastActivity: chat.lastActivity,
+      users: chat.users
+    }))
+  });
+};
 
 // 3. Get Messages
 async function getMessages(req, res) {

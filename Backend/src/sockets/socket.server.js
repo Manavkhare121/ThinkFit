@@ -148,8 +148,13 @@ function initSocketServer(httpServer) {
 
       if (!isUserInChat) return;
 
-      socket.join(chatId);
+      // ✅ String ID use kar rahe hain
+      socket.join(chatId.toString());
       console.log("User joined room:", chatId);
+
+      // ✅ Chat history nikal kar bhej rahe hain
+      const chatHistory = await messageModel.find({ chat: chatId }).sort({ createdAt: 1 });
+      socket.emit("chat-history", chatHistory);
     });
 
     socket.on("send-message", async (payload) => {
@@ -171,9 +176,9 @@ function initSocketServer(httpServer) {
         role: payload.role, 
       });
 
-      io.to(payload.chat).emit("receive-message", message);
+      // ✅ io.to().emit use kar rahe hain message return karne ke liye
+      io.to(payload.chat.toString()).emit("receive-message", message);
     });
-
   });
 }
 

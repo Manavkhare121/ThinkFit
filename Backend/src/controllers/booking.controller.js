@@ -4,7 +4,7 @@ import {
   getAllBookingsService,
   updateBookingService,
 } from "../services/booking.service.js";
-
+import { Booking } from "../models/booking.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
@@ -36,4 +36,22 @@ export const updateBooking = asyncHandler(async (req, res) => {
   );
 
   res.status(200).json(new ApiResponse(200, booking, "Updated"));
+});
+
+export const deleteBooking = asyncHandler(async (req, res) => {
+  const { bookingId } = req.params;
+
+  const booking = await Booking.findById(bookingId);
+
+  if (!booking) {
+    throw new ApiError(404, "Booking not found");
+  }
+
+  if (booking.user.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "Not allowed to delete this booking");
+  }
+
+  await booking.deleteOne();
+
+  res.status(200).json(new ApiResponse(200, null, "Booking deleted"));
 });

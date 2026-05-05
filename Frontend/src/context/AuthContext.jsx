@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
 
-const BookingContext = createContext();
-export const useBooking = () => useContext(BookingContext);
+const AuthContext = createContext();
+export const useBooking = () => useContext(AuthContext);
 
 // ✅ Axios instance
 const api = axios.create({
@@ -77,17 +77,18 @@ export const BookingProvider = ({ children }) => {
     }
   };
 
-  // ✅ 5. DELETE booking (optional)
   const deleteBooking = async (id) => {
-    try {
-      setBookings((prev) => prev.filter((b) => b._id !== id));
-    } catch (error) {
-      console.error("Delete failed:", error);
-    }
-  };
+  try {
+    await api.delete(`/delete/${id}`);
+
+    setBookings((prev) => prev.filter((b) => b._id !== id));
+  } catch (error) {
+    console.error("Delete failed:", error.response?.data || error.message);
+  }
+};
 
   return (
-    <BookingContext.Provider
+    <AuthContext.Provider
       value={{
         bookings,
         loading,
@@ -99,6 +100,6 @@ export const BookingProvider = ({ children }) => {
       }}
     >
       {children}
-    </BookingContext.Provider>
+    </AuthContext.Provider>
   );
 };
