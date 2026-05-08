@@ -74,7 +74,7 @@ const Chatbot = () => {
           {activeChatId ? (
             <ChatMessages messages={messages} isSending={isSending} />
           ) : (
-            <div className="text-part">
+            <div className="text-part-details">
               <h1>Welcome To Aurora</h1>
               <p>Leading to healthier and happier lives</p>
             </div>

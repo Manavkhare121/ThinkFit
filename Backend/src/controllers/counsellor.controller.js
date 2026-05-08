@@ -146,9 +146,17 @@ const logoutCounsellor = asyncHandler(async (req, res) => {
     );
 });
 
+const getTotalCounsellorsCount = asyncHandler(async (req, res) => {
+  const totalCounsellors = await Counsellor.countDocuments();
+
+  return res.status(200).json(
+    new ApiResponse(200, { totalCounsellors }, "Total counsellors count fetched successfully")
+  );
+});
 export {
   generateAccessandRefreshToken,
   registerCounsellor,
   loginCounsellor,
-  logoutCounsellor
+  logoutCounsellor,
+  getTotalCounsellorsCount
 };

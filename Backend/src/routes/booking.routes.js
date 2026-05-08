@@ -28,7 +28,7 @@ router.get(
 router.get(
   "/all",
   verifyJWT,
-  authorizeRoles("counsellor"),
+  authorizeRoles("counsellor","admin"),
   getAllBookings
 );
 

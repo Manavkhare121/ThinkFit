@@ -22,8 +22,7 @@
     
 }
 
-.text-part{
-    
+.text-part-details{
     top:50%;
     left:50%;
     margin-right:10rem;
@@ -31,7 +30,7 @@
     color:#000;
     transform: translate(-10px,-150px);
 }
-.text-part p{
+.text-part-details p{
     font-size: 0.8rem;
     color:#444;
 }

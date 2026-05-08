@@ -7,10 +7,6 @@ const Dashboard = ({ darkMode }) => {
     <div className={`dashboard-page ${darkMode ? "dashboard-dark" : "dashboard-light"}`}>
       <img src={DashboardBanner} alt="Classroom" className="dashboard-banner" />
 
-      <p className="dashboard-quote">
-        "All data is 100% anonymous and aggregated to protect student privacy."
-      </p>
-
       <div className="dashboard-cards">
         <div className="dashboard-card">
           <h2 className="dashboard-card-number dashboard-blue">12,000+</h2>

@@ -15,4 +15,4 @@ connectDB().then(()=>{
 })
 .catch((error)=>{
         console.log("MONGODB coneection is faild !!!",error)
-    })
+})

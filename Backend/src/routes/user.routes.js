@@ -3,6 +3,7 @@ import {
   registerUser,
   loginUser,
   logoutuser,
+  getTotalUsersCount
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 
@@ -11,5 +12,6 @@ const router = Router();
 router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutuser);
 router.route("/register").post(registerUser);
+router.route("/count").get(verifyJWT, getTotalUsersCount);
 
 export default router;

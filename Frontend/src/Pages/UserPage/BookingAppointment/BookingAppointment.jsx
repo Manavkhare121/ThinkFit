@@ -4,7 +4,7 @@ import "./BookingAppointment.css";
 import { useNavigate } from "react-router-dom";
 
 const BookingAppointment = () => {
-  // fetchUserBookings aur updateBookingStatus context se nikalein
+  
   const { bookings, addBooking, updateBookingStatus, deleteBooking, fetchUserBookings } = useBooking();
   const [problem, setProblem] = useState("");
   const [date, setDate] = useState("");
@@ -14,7 +14,6 @@ const BookingAppointment = () => {
 
   const navigate = useNavigate();
 
-  // Page load hote hi data fetch karein
   useEffect(() => {
     fetchUserBookings();
   }, []);
@@ -23,12 +22,12 @@ const BookingAppointment = () => {
     if (!problem || !date) return;
 
     if (editIndex !== null) {
-      // Backend update logic (ID use karein)
+     
       const bookingId = bookings[editIndex]._id;
       await updateBookingStatus(bookingId, { problem, date });
       setEditIndex(null);
     } else {
-      // Nayi booking add karein
+      
       await addBooking(problem, date);
     }
 
@@ -40,7 +39,7 @@ const BookingAppointment = () => {
 
   const handleEdit = (index) => {
     setProblem(bookings[index].problem);
-    setDate(new Date(bookings[index].date).toISOString().split('T')[0]); // Date format fix
+    setDate(new Date(bookings[index].date).toISOString().split('T')[0]); 
     setEditIndex(index);
     setShowProblemInput(true);
     setShowDateInput(true);
@@ -110,7 +109,7 @@ const BookingAppointment = () => {
               <div>
                 <p><strong>Problem:</strong> {b.problem}</p>
                 <p><strong>Date:</strong> {new Date(b.date).toLocaleDateString()}</p>
-                {/* Backend se aayi Status aur Time dikhayein */}
+                
                 <p><strong>Status:</strong> <span className={`status-${b.status}`}>{b.status}</span></p>
                 {b.time && <p><strong>Scheduled Time:</strong> {b.time}</p>}
               </div>

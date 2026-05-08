@@ -21,7 +21,7 @@ const UserNavbar = () => {
             expanded ? "user-sidebar-expanded" : "user-sidebar-collapsed"
           }`}
         >
-          {/* Top Navbar */}
+          
           <div className="user-navbar">
             <div className="user-navbar-icon">
               <img src={userimage} alt="logo" />

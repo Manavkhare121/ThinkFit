@@ -139,9 +139,18 @@ const logoutuser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out"));
 });
 
+const getTotalUsersCount = asyncHandler(async (req, res) => {
+  const totalUsers = await User.countDocuments();
+
+  return res.status(200).json(
+    new ApiResponse(200, { totalUsers }, "Total users count fetched successfully")
+  );
+});
+
 export {
   generateAccessandRefreshToken,
   registerUser,
   loginUser,
   logoutuser,
+  getTotalUsersCount
 };

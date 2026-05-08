@@ -24,7 +24,7 @@ const CounsellorPageBooking = () => {
     setShowTimeInput(false);
   };
 
-  // Kahin bhi bahar click karne par unselect logic
+
   const handleUnselect = () => {
     setSelectedBooking(null);
     setStatus("");
@@ -41,15 +41,12 @@ const CounsellorPageBooking = () => {
     
     setShowStatusInput(false);
     setShowTimeInput(false);
-    fetchAllBookings(); // List refresh karne ke liye
+    fetchAllBookings(); 
   };
 
   return (
     <>
-    {/* Main container pe click karne se unselect hoga */}
     <div className="counsellor-dashboard" onClick={handleUnselect}>
-
-      {/* stopPropagation lagaya hai taaki dashboard area pe click karne se unselect na ho */}
       <div className="dashboard-session-container" onClick={(e) => e.stopPropagation()}>
         <div className="dashboard-header">
           <h1>Session Status</h1>
@@ -58,12 +55,10 @@ const CounsellorPageBooking = () => {
         <div className="dashboard-details">
           <div className="dashboard-details-left">
             
-            {/* 1. Session Name - Hamesha Static rahega */}
             <div className="dashboard-box">
               <h1>Session Name</h1>
             </div>
 
-            {/* 2. Session Status - Hamesha Static rahega */}
             <div className="dashboard-item">
               <div className="dashboard-box" onClick={() => setShowStatusInput(!showStatusInput)}>
                 <h1>Session Status</h1>
@@ -81,12 +76,11 @@ const CounsellorPageBooking = () => {
               )}
             </div>
 
-            {/* 3. Session Date - Hamesha Static rahega */}
             <div className="dashboard-box">
               <h1>Session Date</h1>
             </div>
 
-            {/* 4. Session Time - Hamesha Static rahega */}
+
             <div className="dashboard-item">
               <div className="dashboard-box" onClick={() => setShowTimeInput(!showTimeInput)}>
                 <h1>Session Time</h1>
@@ -128,7 +122,7 @@ const CounsellorPageBooking = () => {
                 <p><strong>Problem:</strong> {b.problem}</p>
                 <p><strong>Date:</strong> {new Date(b.date).toLocaleDateString()}</p>
                 <p><strong>Status:</strong> {b.status}</p>
-                {/* Yahan Time update hote hi dikhega */}
+                
                 <p><strong>Time:</strong> {b.time || "Not Scheduled"}</p>
               </div>
               <div className="record-actions-area">

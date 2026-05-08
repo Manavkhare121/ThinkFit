@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import studentimage from "../../../assets/Student image.webp";
 import Sidebar from "../SidebarForAdmin/Sidebar2";
-import DashboardBanner from "../../../assets/Dashbord-banner.png";
+import admin from "../../../assets/admin.png";
 
 const Navbar = () => {
   const [extended, setExtended] = useState(false);
@@ -43,7 +43,7 @@ const Navbar = () => {
           {showDashboard && (
             <div className="dashboard-page">
               <img
-                src={DashboardBanner}
+                src={admin}
                 alt="Classroom"
                 className="dashboard-banner"
               />

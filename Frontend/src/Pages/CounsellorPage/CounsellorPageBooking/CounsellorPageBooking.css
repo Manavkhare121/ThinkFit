@@ -50,7 +50,6 @@
 
 .dashboard-box {
   background: #0c7fda;
-
   border-radius: 3.66px;
   padding: 0.7rem 1.2rem;
   display: flex;
@@ -109,7 +108,7 @@
   margin-bottom: 1rem;
 }
 
-/* Purana .booking-entry ab ye hai */
+
 .appointment-record-row {
   display: flex;
   justify-content: space-between;
@@ -136,7 +135,6 @@
   margin: 0;
 }
 
-/* Purana .edit-btn ab ye hai */
 .select-action-btn {
   background: #ff9800;
   border: none;
@@ -166,7 +164,7 @@
   gap: 0.5rem;
 }
 
-/* Agar delete button use karein toh .remove-action-btn use kar sakte hain */
+
 .remove-action-btn {
   background: #ee5353;
   border: none;
