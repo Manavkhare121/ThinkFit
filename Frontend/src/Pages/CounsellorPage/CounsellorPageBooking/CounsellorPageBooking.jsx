@@ -48,11 +48,11 @@ const CounsellorPageBooking = () => {
     <>
     <div className="counsellor-dashboard" onClick={handleUnselect}>
       <div className="dashboard-session-container" onClick={(e) => e.stopPropagation()}>
-        <div className="dashboard-header">
+        <div className="counserllor-dashboard-header">
           <h1>Session Status</h1>
         </div>
 
-        <div className="dashboard-details">
+        <div className="counsellor-dashboard-details">
           <div className="dashboard-details-left">
             
             <div className="dashboard-box">

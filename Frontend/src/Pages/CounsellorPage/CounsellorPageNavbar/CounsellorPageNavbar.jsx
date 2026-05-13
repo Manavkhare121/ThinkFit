@@ -99,10 +99,10 @@ const CounsellorNavbarPage = () => {
           <div className="counsellor-navbar-text">
             <p>About Us</p>
             <p>Guide</p>
-            <p onClick={() => navigate("/login")}>Login</p>
+            <p onClick={() => navigate("/Counsellorlogin")}>Login</p>
 
             <div className="counsellor-signup">
-              <p onClick={() => navigate("/Signup")}>SignUp</p>
+              <p onClick={() => navigate("/CounsellorSignup")}>SignUp</p>
             </div>
           </div>
         </div>

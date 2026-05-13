@@ -31,10 +31,10 @@ const UserNavbar = () => {
               <p>About Us</p>
               <p>Guide</p>
 
-              <p onClick={() => navigate("/login")}>Login</p>
+              <p onClick={() => navigate("/Userlogin")}>Login</p>
 
               <div className="user-signup">
-                <p onClick={() => navigate("/Signup")}>SignUp</p>
+                <p onClick={() => navigate("/UserSignup")}>SignUp</p>
               </div>
             </div>
           </div>

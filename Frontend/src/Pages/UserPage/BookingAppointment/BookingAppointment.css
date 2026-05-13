@@ -26,7 +26,7 @@
 .dashboard-details {
   display: flex;
   justify-content: space-between;
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
   
 }
 
@@ -85,7 +85,7 @@
 
 .booked-details h2 {
   color: #0c7fda;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .booking-entry {
@@ -95,7 +95,7 @@
   background: white;
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 1rem;
   margin-bottom: 0.8rem;
 }
 

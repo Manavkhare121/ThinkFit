@@ -29,21 +29,19 @@
   gap: 1rem;
 }
 
-.dashboard-header {
-  font-size: 1rem;
+.counserllor-dashboard-header h1 {
+  font-size: 1.5rem;
   font-weight: bold;
-  color: black;
-  margin-bottom: 1rem;
+  color: #0c7fda;
 }
 
-.dashboard-details {
+.counsellor-dashboard-details {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 4.5rem;
 }
 
-.dashboard-details-left {
+.counsellor-dashboard-details-left {
   display: flex;
   gap: 4rem;
 }
@@ -71,7 +69,7 @@
   font-weight: 600;
 }
 
-.dashboard-details-right {
+.counsellor-dashboard-details-right {
   display: flex;
   align-items: flex-end; 
   margin-left: auto; 
@@ -105,7 +103,8 @@
 
 .appointments-management-panel h2 {
   color: #0c7fda;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  
 }
 
 
@@ -116,7 +115,7 @@
   background: white;
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 0.8rem 1rem;
+  padding: 0.5rem 1rem;
   margin-bottom: 0.8rem;
   cursor: pointer;
   transition: background 0.3s ease;

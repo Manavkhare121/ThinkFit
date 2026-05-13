@@ -31,9 +31,9 @@ const Navbar = () => {
           <div className="navbar-text">
             <p>About Us</p>
             <p>Guide</p>
-            <p onClick={() => navigate("/login")}>Login</p>
+            <p onClick={() => navigate("/AdminLogin")}>Login</p>
             <div className="signup">
-              <p onClick={() => navigate("/signup")}>SignUp</p>
+              <p onClick={() => navigate("/AdminSignup")}>SignUp</p>
             </div>
           </div>
         </div>

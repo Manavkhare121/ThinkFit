@@ -1,35 +1,48 @@
+/* ================= CONTAINER ================= */
+
 .counsellordetails-container {
   background-color: #fff;
   min-height: 75vh;
   width: calc(100% - 120px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
+  padding: 2rem;
   margin: 1.5rem;
   border-radius: 3.66px;
 }
 
-.counsellordetails-card {
-  width: 85%;
-  background-color: #c5dae1;
-  border-radius: 10px;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
+/* ================= GRID ================= */
+
+.counsellordetails-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
+}
+
+/* ================= CARD ================= */
+
+.counsellordetails-card {
+  background-color: #c5dae1;
+  border-radius: 3.66px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.counsellordetails-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ================= IMAGE ================= */
+
 .counsellordetails-image {
-  width: 180px;
-  height: 180px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
   background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 .counsellordetails-image img {
@@ -38,43 +51,52 @@
   object-fit: cover;
 }
 
+/* ================= INFO ================= */
+
 .counsellordetails-info {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  text-align: center;
 }
 
 .counsellordetails-info h2 {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #0C7FDA;
+  margin-bottom: 1rem;
 }
 
 .counsellordetails-info p {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #333;
   line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
+
+/* ================= EXTRA ================= */
 
 .counsellordetails-extra {
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 1.5rem;
 }
 
 .counsellordetails-extra span {
   background-color: #0C7FDA;
   color: white;
-  padding: 8px 14px;
-  border-radius: 5px;
-  font-size: 0.95rem;
+  padding: 10px 14px;
+  border-radius: 3.66px;
+  font-size: 0.9rem;
 }
+
+/* ================= BUTTON ================= */
 
 .counsellordetails-btn {
   width: 180px;
   padding: 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 3.66px;
   background-color: #0C7FDA;
   color: white;
   font-size: 1rem;
@@ -89,16 +111,13 @@
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 768px) {
+
+  .counsellordetails-grid {
+    grid-template-columns: 1fr;
+  }
+
   .counsellordetails-card {
-    flex-direction: column;
-    text-align: center;
+    padding: 1.5rem;
   }
 
-  .counsellordetails-extra {
-    justify-content: center;
-  }
-
-  .counsellordetails-btn {
-    width: 100%;
-  }
 }
