@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 import './Chatting.css';
 // ✅ connectSocket ko import kiya
 import { socket, connectSocket } from "../../../Socket/socket.js"; 
 
-const Chatting = ({ chatId }) => {
+const Chatting = () => {
+  const { chatId } = useParams();
+  console.log(chatId);
+  console.log("DEBUG: chatId received as prop:", chatId);
   const [inputActive, setInputActive] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    if (!chatId) return;
+    if (!chatId || chatId === ":chatId") return; 
 
-    // ✅ Agar socket disconnected hai (autoConnect false ki wajah se), toh usko chalu karein
+  console.log("Joining chat room:", chatId);
     if (!socket.connected) {
       connectSocket();
     }

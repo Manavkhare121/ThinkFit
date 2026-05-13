@@ -73,12 +73,25 @@ async function deleteChat(req, res) {
 
 // 5. Create Human Chat
 async function createMessageChat(req, res) {
+
     const { counsellorId } = req.body;
-    const userId = req.user._id;
+
+    const currentUser =
+      req.user || req.counsellor || req.admin;
+
+    if (!currentUser) {
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+    }
+
+    const userId = currentUser._id;
+
     const chat = await chatmodel.create({
         users: [userId, counsellorId],
         type: "human",
     });
+
     res.status(201).json({ chat });
 }
 

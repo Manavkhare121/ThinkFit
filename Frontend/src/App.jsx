@@ -19,6 +19,7 @@ import CounsellorLoginPage from './Pages/Auth/CounsellorAuthPage/CounsellorLogin
 import CounsellorSignupPage from './Pages/Auth/CounsellorAuthPage/CounsellorSignUp.jsx'
 import AdminLogin from './Pages/Auth/AdminAuthPage/AdminLoginPage.jsx'
 import AdminSignup from './Pages/Auth/AdminAuthPage/AdminSignUp.jsx'
+import CounsellorDetails from "./Pages/UserPage/CounsellorDetailPage/counsellorDetails.jsx";
 function App() {
   return (
     <Routes>
@@ -35,11 +36,12 @@ function App() {
     <Route path="UserDashboard" element={<Dashboard />} />
     <Route path="Chatbot" element={<Chatbot/>}/>
     <Route path="Resource" element={<Resource/>}/>
-    <Route path="chatting" element={<Chatting/>}/>
+    <Route path="chatting/:chatId?" element={<Chatting/>}/>
+    <Route path="counsellordetails" element={<CounsellorDetails/>}/>
 </Route>
       
       <Route path="/counsellor/*" element={<CounsellorNavbarPage/>}>
-  <Route path="chatting" element={<CounsellorChatting />} />
+  <Route path="chatting/:chatId?" element={<CounsellorChatting />} />
   <Route path="booking" element={<CounsellorBookingPage/>}/>
 </Route>
 
