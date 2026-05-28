@@ -1,4 +1,4 @@
-/* Main Container */
+
 .booking {
  background-color: #fff;
   min-height: 75vh;
@@ -11,7 +11,6 @@
   border-radius: 3.66px; 
 }
 
-/* Titles */
 .dashboard-main-title {
   color: #0C7FDA;
   width: 100%;
@@ -25,7 +24,7 @@
   margin: 0;
 }
 
-/* Section Wrapper (Light Blue / White Boxes) */
+
 .box-details {
   width: 100%;
   background-color: #E9F5FE;
@@ -36,7 +35,6 @@
   border: 1px solid #d0e7fb;
 }
 
-/* Headers inside sections */
 .text-details {
   font-size: 0.8rem;
   font-weight: bold;
@@ -46,7 +44,6 @@
   width: fit-content;
 }
 
-/* Stats Row Wrapper */
 .details-box {
   display: flex;
   flex-direction: row;  
@@ -61,7 +58,7 @@
   margin-top: 10px;
 }
 
-/* Individual Stat Box (Dark Blue) */
+
 .box-booking {
   background: #0C7FDA;
   width: 200px;
@@ -95,7 +92,7 @@
   font-weight: 700;
 }
 
-/* Graphs Section Specifics */
+
 .graphs-section {
   margin-top: 30px;
   background-color: #ffffff;
@@ -126,7 +123,7 @@
   height: 250px;
 }
 
-/* Responsive adjustments for smaller screens */
+
 @media (max-width: 768px) {
   .booking {
     width: 95%;

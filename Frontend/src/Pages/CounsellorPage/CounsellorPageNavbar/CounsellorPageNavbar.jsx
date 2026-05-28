@@ -6,7 +6,7 @@ import CounsellorPageSidebar from "../../CounsellorPage/CounsellorPageSidebar/Co
 
 import { Calendar, Clock, Users, BarChart3, TrendingUp } from "lucide-react";
 
-// ✅ IMPORT BOOKING CONTEXT
+
 import { useBooking } from "../../../context/AuthContext.jsx";
 
 const CounsellorNavbarPage = () => {
@@ -16,18 +16,16 @@ const CounsellorNavbarPage = () => {
 
   const showDashboard = location.pathname === "/counsellor";
 
-  // ✅ GET BOOKINGS
   const { bookings, fetchAllBookings } = useBooking();
 
-  // ✅ FETCH BOOKINGS
   useEffect(() => {
     fetchAllBookings();
   }, []);
 
-  // ✅ TODAY DATE
+
   const today = new Date().toDateString();
 
-  // ✅ FILTERS
+ 
   const todayAppointments = bookings.filter(
     (b) => new Date(b.date).toDateString() === today
   );
@@ -51,7 +49,7 @@ const CounsellorNavbarPage = () => {
     return bookingDate >= weekStart && bookingDate <= weekEnd;
   });
 
-  // ✅ DYNAMIC STATS
+ 
   const stats = [
     {
       title: "Today's Appointments",
@@ -90,7 +88,7 @@ const CounsellorNavbarPage = () => {
             : "counsellor-sidebar-collapsed"
         }`}
       >
-        {/* NAVBAR */}
+        
         <div className="counsellor-navbar">
           <div className="counsellor-navbar-icon">
             <img src={studentimage} alt="logo" />
@@ -107,14 +105,14 @@ const CounsellorNavbarPage = () => {
           </div>
         </div>
 
-        {/* MAIN CONTENT */}
+        
         <div className="page-content">
           <Outlet />
 
           {showDashboard && (
             <div className="dashboard-page">
 
-              {/* STATS */}
+              
               <div className="dashboard-row">
                 <div className="dashboard-cards">
                   {stats.map((item, idx) => {
@@ -136,10 +134,10 @@ const CounsellorNavbarPage = () => {
                   })}
                 </div>
 
-                {/* BELOW SECTION */}
+               
                 <div className="below-section">
 
-                  {/* TODAY SESSIONS */}
+                 
                   <div className="sessions-box">
                     <h2 className="sessions-title">Today's Sessions</h2>
 
@@ -151,13 +149,13 @@ const CounsellorNavbarPage = () => {
                           <div key={b._id} className="session-card">
                             <div className="session-box-item">
 
-                              {/* RIGHT */}
+                              
                               <div className="right-side-session-box">
                                 <h3>{b.status}</h3> 
                                 <p>{b.problem}</p>
                               </div>
 
-                              {/* LEFT */}
+                             
                               <div className="left-side-session-box">
                                 <span className="time">
                                   {b.time || "Not Set"}
@@ -175,7 +173,7 @@ const CounsellorNavbarPage = () => {
                     </div>
                   </div>
 
-                  {/* INSIGHTS */}
+                  
                   <div className="insights-card">
                     <div className="insights-header">
                       <TrendingUp className="icon" size={22} />

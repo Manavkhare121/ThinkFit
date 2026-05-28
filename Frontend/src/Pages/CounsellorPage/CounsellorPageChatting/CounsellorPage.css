@@ -1,4 +1,4 @@
-/* ================= MAIN CONTAINER ================= */
+
 
 .chatting-container {
   background-color: #fff;
@@ -12,7 +12,6 @@
   border-radius: 3.66px;
 }
 
-/* ================= LAYOUT ================= */
 
 .chatting-layout {
   display: flex;
@@ -21,7 +20,6 @@
   gap: 15px;
 }
 
-/* ================= SIDEBAR ================= */
 
 .chatting-sidebar-panel {
   width: 100%;
@@ -142,7 +140,7 @@
   line-height: 1.4;
 }
 
-/* ================= INPUT BOX ================= */
+
 
 .chatting-input-box {
   display: flex;
@@ -186,7 +184,7 @@
   color: white;
 }
 
-/* ================= RESPONSIVE ================= */
+
 
 @media (max-width: 768px) {
 

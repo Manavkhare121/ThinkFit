@@ -9,21 +9,21 @@ const CounsellorPage = () => {
   const { chatId } = useParams();
   const navigate = useNavigate();
 
-  // ================= STATES =================
+ 
 
   const [chats, setChats] = useState([]);
   const [inputActive, setInputActive] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
 
-  // ================= FETCH CHAT LIST =================
+
 
   useEffect(() => {
 
     if (!chatId) {
 
       axios
-        .get("http://localhost:3000/api/chat/", {
+        .get("http://localhost:3000/api/chat/human-chats", {
           withCredentials: true
         })
 
@@ -38,8 +38,7 @@ const CounsellorPage = () => {
 
   }, [chatId]);
 
-  // ================= SOCKET CONNECTION =================
-
+ 
   useEffect(() => {
 
     if (!chatId || chatId === ":chatId") return;
@@ -60,12 +59,12 @@ const CounsellorPage = () => {
       socket.on("connect", joinRoom);
     }
 
-    // OLD MESSAGES
+  
     socket.on("chat-history", (history) => {
       setMessages(history);
     });
 
-    // NEW MESSAGE
+   
     socket.on("receive-message", (msg) => {
       setMessages((prev) => [...prev, msg]);
     });
@@ -80,7 +79,6 @@ const CounsellorPage = () => {
 
   }, [chatId]);
 
-  // ================= SEND MESSAGE =================
 
   const handleSend = () => {
 
@@ -96,9 +94,7 @@ const CounsellorPage = () => {
 
   };
 
-  // =====================================================
-  // 🟢 CHAT LIST VIEW
-  // =====================================================
+  
 
   if (!chatId) {
 
@@ -162,9 +158,7 @@ const CounsellorPage = () => {
 
   }
 
-  // =====================================================
-  // 🔵 CHAT VIEW
-  // =====================================================
+
 
   return (
 
@@ -175,11 +169,10 @@ const CounsellorPage = () => {
 
       <div className="chatting-layout">
 
-        {/* ================= MAIN CHAT PANEL ================= */}
-
+       
         <div className="chatting-main-panel">
 
-          {/* ================= HEADER ================= */}
+          
 
           <div className="chatting-header">
 
@@ -196,7 +189,7 @@ const CounsellorPage = () => {
 
           </div>
 
-          {/* ================= MESSAGES ================= */}
+          
 
           <div className="chat-messages-container">
 
@@ -232,7 +225,7 @@ const CounsellorPage = () => {
 
           </div>
 
-          {/* ================= INPUT BOX ================= */}
+          
 
           <div
             className={`chatting-input-box ${

@@ -73,13 +73,12 @@
   margin-bottom: 1.5rem;
 }
 
-/* ================= EXTRA ================= */
 
 .counsellordetails-extra {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .counsellordetails-extra span {
@@ -93,8 +92,8 @@
 /* ================= BUTTON ================= */
 
 .counsellordetails-btn {
-  width: 180px;
-  padding: 12px;
+  width: 160px;
+  padding: 10px;
   border: none;
   border-radius: 3.66px;
   background-color: #0C7FDA;
@@ -108,6 +107,11 @@
   background-color: #095fa3;
 }
 
+.button-end{
+  display: flex;
+  gap:1rem;
+
+}
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 768px) {

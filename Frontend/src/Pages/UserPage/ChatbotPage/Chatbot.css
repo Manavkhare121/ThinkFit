@@ -24,14 +24,15 @@
 
 .text-part-details{
     top:50%;
-    left:50%;
+    right:50%;
     margin-right:10rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
     color:#000;
-    transform: translate(-10px,-150px);
+    transform: translate(270px,-210px);
 }
 .text-part-details p{
     font-size: 0.8rem;
+    margin-left: 6.5rem;
     color:#444;
 }
 

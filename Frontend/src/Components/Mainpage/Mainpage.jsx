@@ -24,35 +24,7 @@ const Mainpage = () => {
         <div className="poster-img">
           <img src={poster} alt="" />
         </div>
-        {/* <div className="intro-content">
-          <div className="intro-image-container">
-            <img src={mainimage} alt="Wellness Platform" />
-          </div>
-          <div className="intro-text-container">
-           <p>
-  We're building an <em>Integrated Campus Wellness Platform</em> a unified space 
-  designed to support both student well-being and campus mental-health initiatives.
-</p>
-
-<p>
-  <strong><em>For Student</em></strong>, it serves as a personal wellness hub with an AI support 
-  chatbot, 24/7 guidance, confidential counsellor booking, mood tracking, stress checks, 
-  digital journaling, and curated mental-health resources — all in a safe, judgment-free 
-  space.
-</p>
-<p>
-  <strong><em>For administration</em></strong>, it provides an 
-  <em>Anonymous Wellness Dashboard</em> that highlights stress patterns, student 
-  engagement, and emotional trends, helping institutions make informed decisions and 
-  improve campus-wide well-being while keeping identities private.
-</p>
-
-<p>
-  Together, we’re building a healthier, more connected, and supportive campus community.
-</p>
-
-          </div>
-        </div> */}
+       
       </section>
 
 

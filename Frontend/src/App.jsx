@@ -20,6 +20,7 @@ import CounsellorSignupPage from './Pages/Auth/CounsellorAuthPage/CounsellorSign
 import AdminLogin from './Pages/Auth/AdminAuthPage/AdminLoginPage.jsx'
 import AdminSignup from './Pages/Auth/AdminAuthPage/AdminSignUp.jsx'
 import CounsellorDetails from "./Pages/UserPage/CounsellorDetailPage/counsellorDetails.jsx";
+import CounsellorHistory from "./Pages/UserPage/ChatWithCounsellor/CounellorHistory.jsx"
 function App() {
   return (
     <Routes>
@@ -38,6 +39,7 @@ function App() {
     <Route path="Resource" element={<Resource/>}/>
     <Route path="chatting/:chatId?" element={<Chatting/>}/>
     <Route path="counsellordetails" element={<CounsellorDetails/>}/>
+    <Route path="CounsellorHistory" element={<CounsellorHistory/>}/>
 </Route>
       
       <Route path="/counsellor/*" element={<CounsellorNavbarPage/>}>
