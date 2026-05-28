@@ -38,7 +38,7 @@ function initSocketServer(httpServer) {
       cors: {
         origin: [
           "http://localhost:5173",
-          "https://think-fit-vert.vercel.app",
+          "https://thinkfit-1.onrender.com",
         ],
         allowedHeaders: [
           "Content-Type",

@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://think-fit-vert.vercel.app",
+      "https://thinkfit-1.onrender.com",
     ],
     credentials: true,
   })
