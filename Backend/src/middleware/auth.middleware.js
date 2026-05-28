@@ -7,9 +7,17 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
-    const token =
-      req.cookies?.accessToken ||
-      req.header("Authorization")?.replace("Bearer ", "").trim();
+    // Prefer explicit Authorization header (Bearer token) over cookie token.
+    const headerToken = req.header("Authorization")
+      ?.replace("Bearer ", "")
+      .trim();
+
+    const cookieToken = req.cookies?.accessToken;
+
+    const token = headerToken || cookieToken;
+
+    // Debug log to help diagnose role mismatches caused by stale cookies
+    console.log("verifyJWT: usingHeader=", !!headerToken, "usingCookie=", !!cookieToken);
 
     if (!token) {
       throw new ApiError(401, "Unauthorized request - Token missing");
