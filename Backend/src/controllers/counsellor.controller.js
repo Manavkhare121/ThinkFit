@@ -102,6 +102,7 @@ const loginCounsellor = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
   };
 
   return res
@@ -131,6 +132,7 @@ const logoutCounsellor = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
   };
 
   return res
