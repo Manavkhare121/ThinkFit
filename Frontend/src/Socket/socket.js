@@ -1,15 +1,23 @@
 import { io } from "socket.io-client";
 
+const BACKEND_URL =
+  import.meta.env.VITE_API_BASE ||
+  "https://thinkfit.onrender.com";
+
 export const socket = io(
-   "http://localhost:3000",
-   {
-      autoConnect:false,
-      withCredentials:true
-   }
+  BACKEND_URL,
+  {
+    autoConnect: false,
+    withCredentials: true
+  }
 );
 
 export const connectSocket = () => {
-   if(!socket.connected){
-      socket.connect();
-   }
+
+  if (!socket.connected) {
+
+    socket.connect();
+
+  }
+
 };

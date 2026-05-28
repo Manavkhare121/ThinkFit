@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import {
@@ -7,14 +6,15 @@ import {
 
 import axios from 'axios';
 
-import './CounsellorDetails.css';
+import './counsellorDetails.css';
+
+const BACKEND_URL =
+  import.meta.env.VITE_API_BASE ||
+  "https://thinkfit.onrender.com";
 
 const CounsellorDetails = () => {
 
   const navigate = useNavigate();
-
-
-  
 
   const counsellors = [
 
@@ -68,8 +68,6 @@ const CounsellorDetails = () => {
 
   ];
 
-
-
   const handleStartChat = async (
     counsellorId
   ) => {
@@ -79,7 +77,7 @@ const CounsellorDetails = () => {
       const response =
         await axios.post(
 
-          "http://localhost:3000/api/chat/create-message-chat",
+          `${BACKEND_URL}/api/chat/create-message-chat`,
 
           {
             counsellorId
@@ -115,11 +113,9 @@ const CounsellorDetails = () => {
 
   };
 
-
   return (
 
     <div className="counsellordetails-container">
-
 
       <div className="counsellordetails-grid">
 
@@ -146,7 +142,6 @@ const CounsellorDetails = () => {
 
               </div>
 
-
               <div className="counsellordetails-info">
 
                 <h2>
@@ -162,7 +157,6 @@ const CounsellorDetails = () => {
                   }
 
                 </p>
-
 
                 <div className="counsellordetails-extra">
 
@@ -188,38 +182,40 @@ const CounsellorDetails = () => {
 
                 </div>
 
-
                 <div className="button-end">
+
                   <button
 
-                  className="counsellordetails-btn"
+                    className="counsellordetails-btn"
 
-                  onClick={() =>
-                    handleStartChat(
-                      counsellor._id
-                    )
-                  }
+                    onClick={() =>
+                      handleStartChat(
+                        counsellor._id
+                      )
+                    }
 
-                >
+                  >
 
-                  Start Chat
+                    Start Chat
 
-                </button>
-                <button
+                  </button>
 
-        onClick={() =>
-          navigate(
-            "/user/CounsellorHistory"
-          )
-        }
-        className="counsellordetails-btn"
-      >
+                  <button
 
-        View Previous Chats
+                    onClick={() =>
+                      navigate(
+                        "/user/CounsellorHistory"
+                      )
+                    }
 
-      </button>
+                    className="counsellordetails-btn"
+                  >
+
+                    View Previous Chats
+
+                  </button>
+
                 </div>
-                
 
               </div>
 
@@ -237,4 +233,3 @@ const CounsellorDetails = () => {
 };
 
 export default CounsellorDetails;
-

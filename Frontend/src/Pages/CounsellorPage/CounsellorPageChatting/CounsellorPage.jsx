@@ -1,31 +1,42 @@
 import React, { useState, useEffect } from 'react';
+
 import { useParams, useNavigate } from "react-router-dom";
+
 import axios from 'axios';
+
 import { socket, connectSocket } from "../../../Socket/socket.js";
+
 import './CounsellorPage.css';
+
+const BACKEND_URL =
+  import.meta.env.VITE_API_BASE ||
+  "https://thinkfit.onrender.com";
 
 const CounsellorPage = () => {
 
   const { chatId } = useParams();
+
   const navigate = useNavigate();
 
- 
-
   const [chats, setChats] = useState([]);
+
   const [inputActive, setInputActive] = useState(false);
+
   const [input, setInput] = useState("");
+
   const [messages, setMessages] = useState([]);
-
-
 
   useEffect(() => {
 
     if (!chatId) {
 
       axios
-        .get("http://localhost:3000/api/chat/human-chats", {
-          withCredentials: true
-        })
+        .get(
+          `${BACKEND_URL}/api/chat/human-chats`,
+          {
+            withCredentials: true
+          }
+        )
 
         .then((res) => {
           setChats(res.data.chats);
@@ -38,7 +49,6 @@ const CounsellorPage = () => {
 
   }, [chatId]);
 
- 
   useEffect(() => {
 
     if (!chatId || chatId === ":chatId") return;
@@ -50,51 +60,72 @@ const CounsellorPage = () => {
     }
 
     const joinRoom = () => {
-      socket.emit("join-chat", chatId.toString());
+      socket.emit(
+        "join-chat",
+        chatId.toString()
+      );
     };
 
     if (socket.connected) {
       joinRoom();
     } else {
-      socket.on("connect", joinRoom);
+      socket.on(
+        "connect",
+        joinRoom
+      );
     }
 
-  
-    socket.on("chat-history", (history) => {
-      setMessages(history);
-    });
+    socket.on(
+      "chat-history",
+      (history) => {
+        setMessages(history);
+      }
+    );
 
-   
-    socket.on("receive-message", (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    });
+    socket.on(
+      "receive-message",
+      (msg) => {
+        setMessages((prev) => [
+          ...prev,
+          msg
+        ]);
+      }
+    );
 
     return () => {
 
-      socket.off("connect", joinRoom);
+      socket.off(
+        "connect",
+        joinRoom
+      );
+
       socket.off("chat-history");
+
       socket.off("receive-message");
 
     };
 
   }, [chatId]);
 
-
   const handleSend = () => {
 
-    if (!input.trim() || !chatId) return;
+    if (
+      !input.trim() ||
+      !chatId
+    ) return;
 
-    socket.emit("send-message", {
-      chat: chatId.toString(),
-      content: input.trim(),
-      role: "counsellor",
-    });
+    socket.emit(
+      "send-message",
+      {
+        chat: chatId.toString(),
+        content: input.trim(),
+        role: "counsellor",
+      }
+    );
 
     setInput("");
 
   };
-
-  
 
   if (!chatId) {
 
@@ -125,7 +156,9 @@ const CounsellorPage = () => {
                     key={chat._id}
                     className="chatting-history-card"
                     onClick={() =>
-                      navigate(`/counsellor/chatting/${chat._id}`)
+                      navigate(
+                        `/counsellor/chatting/${chat._id}`
+                      )
                     }
                   >
 
@@ -158,21 +191,18 @@ const CounsellorPage = () => {
 
   }
 
-
-
   return (
 
     <div
       className="chatting-container"
-      onClick={() => setInputActive(false)}
+      onClick={() =>
+        setInputActive(false)
+      }
     >
 
       <div className="chatting-layout">
 
-       
         <div className="chatting-main-panel">
-
-          
 
           <div className="chatting-header">
 
@@ -182,14 +212,14 @@ const CounsellorPage = () => {
 
             <button
               className="chatting-back-btn"
-              onClick={() => navigate("/counsellor/chatting")}
+              onClick={() =>
+                navigate("/counsellor/chatting")
+              }
             >
               Back to Chat List
             </button>
 
           </div>
-
-          
 
           <div className="chat-messages-container">
 
@@ -206,12 +236,14 @@ const CounsellorPage = () => {
                 >
 
                   <strong>
+
                     {
                       m.role === "counsellor"
                         ? "You"
                         : "User"
                     }
                     :
+
                   </strong>
 
                   <p>
@@ -225,16 +257,19 @@ const CounsellorPage = () => {
 
           </div>
 
-          
-
           <div
             className={`chatting-input-box ${
-              inputActive ? "active" : ""
+              inputActive
+                ? "active"
+                : ""
             }`}
 
             onClick={(e) => {
+
               e.stopPropagation();
+
               setInputActive(true);
+
             }}
           >
 
@@ -244,9 +279,12 @@ const CounsellorPage = () => {
                 type="text"
                 placeholder="How Can I Help You..."
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) =>
+                  setInput(e.target.value)
+                }
                 onKeyDown={(e) =>
-                  e.key === "Enter" && handleSend()
+                  e.key === "Enter" &&
+                  handleSend()
                 }
               />
 
@@ -256,7 +294,9 @@ const CounsellorPage = () => {
               className="chatting-send-icon"
               onClick={handleSend}
             >
+
               <i className="ri-send-plane-fill"></i>
+
             </div>
 
           </div>

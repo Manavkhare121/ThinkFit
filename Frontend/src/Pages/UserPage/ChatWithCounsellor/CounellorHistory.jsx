@@ -11,6 +11,10 @@ import {
 
 import "./CounsellorHistory.css";
 
+const BACKEND_URL =
+  import.meta.env.VITE_API_BASE ||
+  "https://thinkfit.onrender.com";
+
 const CounsellorHistory = () => {
 
   const [chats, setChats] =
@@ -23,7 +27,7 @@ const CounsellorHistory = () => {
 
     axios.get(
 
-      "http://localhost:3000/api/chat/human-chats",
+      `${BACKEND_URL}/api/chat/human-chats`,
 
       {
         withCredentials: true

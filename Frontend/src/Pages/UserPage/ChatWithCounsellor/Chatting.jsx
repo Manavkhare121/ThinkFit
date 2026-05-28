@@ -8,7 +8,12 @@ import "./Chatting.css";
 
 import { socket, connectSocket } from "../../../Socket/socket.js";
 
+const BACKEND_URL =
+  import.meta.env.VITE_API_BASE ||
+  "https://thinkfit.onrender.com";
+
 const Chatting = () => {
+
   const { chatId } = useParams();
 
   const [inputActive, setInputActive] = useState(false);
@@ -19,15 +24,11 @@ const Chatting = () => {
 
   const [chatInfo, setChatInfo] = useState(null);
 
-  // =========================
-  // GET CHAT INFO
-  // =========================
-
   useEffect(() => {
+
     axios
       .get(
-        `http://localhost:3000/api/chat/single/${chatId}`,
-
+        `${BACKEND_URL}/api/chat/single/${chatId}`,
         {
           withCredentials: true,
         },
@@ -40,13 +41,11 @@ const Chatting = () => {
       .catch((err) => {
         console.log(err);
       });
+
   }, [chatId]);
 
-  // =========================
-  // SOCKET CHAT
-  // =========================
-
   useEffect(() => {
+
     if (!chatId || chatId === ":chatId") return;
 
     console.log("Joining chat room:", chatId);
@@ -55,94 +54,149 @@ const Chatting = () => {
       connectSocket();
     }
 
-    socket.emit("join-chat", chatId.toString());
+    socket.emit(
+      "join-chat",
+      chatId.toString()
+    );
 
-    socket.on("chat-history", (history) => {
-      setMessages(history);
-    });
+    socket.on(
+      "chat-history",
+      (history) => {
+        setMessages(history);
+      }
+    );
 
-    socket.on("receive-message", (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    });
+    socket.on(
+      "receive-message",
+      (msg) => {
+        setMessages((prev) => [
+          ...prev,
+          msg
+        ]);
+      }
+    );
 
     return () => {
+
       socket.off("chat-history");
 
       socket.off("receive-message");
+
     };
+
   }, [chatId]);
 
-  // =========================
-  // SEND MESSAGE
-  // =========================
-
   const handleSend = () => {
+
     if (!input) return;
 
-    socket.emit("send-message", {
-      chat: chatId.toString(),
-
-      content: input,
-
-      role: "user",
-    });
+    socket.emit(
+      "send-message",
+      {
+        chat: chatId.toString(),
+        content: input,
+        role: "user",
+      }
+    );
 
     setInput("");
+
   };
 
-  
-
-  const otherUser = chatInfo?.users?.find(
-    (u) => u._id !== localStorage.getItem("userId"),
-  );
+  const otherUser =
+    chatInfo?.users?.find(
+      (u) =>
+        u._id !==
+        localStorage.getItem("userId"),
+    );
 
   return (
-    <div className="chatting-container" onClick={() => setInputActive(false)}>
+    <div
+      className="chatting-container"
+      onClick={() => setInputActive(false)}
+    >
+
       <div className="chatting-layout">
+
         <div className="chatting-main-panel">
-         
 
-          <h2 className="chat-user-name">{otherUser?.name}</h2>
-
+          <h2 className="chat-user-name">
+            {otherUser?.name}
+          </h2>
 
           <div className="chat-messages-container">
+
             {messages.map((m, i) => (
+
               <p
                 key={i}
-                className={m.role === "user" ? "my-message" : "other-message"}
+                className={
+                  m.role === "user"
+                    ? "my-message"
+                    : "other-message"
+                }
               >
-                <strong>{m.role === "user" ? "You" : "Counsellor"}:</strong>{" "}
-                {m.content}
-              </p>
-            ))}
-          </div>
 
-          
+                <strong>
+                  {
+                    m.role === "user"
+                      ? "You"
+                      : "Counsellor"
+                  }
+                  :
+                </strong>{" "}
+
+                {m.content}
+
+              </p>
+
+            ))}
+
+          </div>
 
           <div
             className={`chatting-input-box ${inputActive ? "active" : ""}`}
             onClick={(e) => {
+
               e.stopPropagation();
 
               setInputActive(true);
+
             }}
           >
+
             <div className="chatting-input-field">
+
               <input
                 type="text"
                 placeholder="Type a message..."
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                onChange={(e) =>
+                  setInput(e.target.value)
+                }
+                onKeyDown={(e) =>
+                  e.key === "Enter" &&
+                  handleSend()
+                }
               />
+
             </div>
 
-            <div className="chatting-send-icon" onClick={handleSend}>
+            <div
+              className="chatting-send-icon"
+              onClick={handleSend}
+            >
+
               <i className="ri-send-plane-fill"></i>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 };
