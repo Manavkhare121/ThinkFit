@@ -43,7 +43,25 @@ const LoginPage = () => {
 
       toast.success("Login successful 🎉");
 
-      localStorage.setItem("isLoggedIn", true);
+      // store tokens so axios interceptors and socket can use them
+      try {
+        if (response?.data?.data?.accessToken) {
+          localStorage.setItem("accessToken", response.data.data.accessToken);
+        } else if (response?.data?.accessToken) {
+          // fallback if shape differs
+          localStorage.setItem("accessToken", response.data.accessToken);
+        }
+
+        if (response?.data?.data?.refreshToken) {
+          localStorage.setItem("refreshToken", response.data.data.refreshToken);
+        } else if (response?.data?.refreshToken) {
+          localStorage.setItem("refreshToken", response.data.refreshToken);
+        }
+      } catch (e) {
+        console.warn("Could not store tokens:", e);
+      }
+
+      localStorage.setItem("isLoggedIn", "true");
 
       navigate("/user");
 
