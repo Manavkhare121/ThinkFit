@@ -12,604 +12,277 @@ import { Counsellor } from "../models/counsellor.models.js";
 
 import { Admin } from "../models/admin.model.js";
 
-import {
-  generateResponse,
-  generateVectors
-} from "../services/ai.service.js";
+import { generateResponse, generateVectors } from "../services/ai.service.js";
 
-import {
-  messageModel
-} from "../models/message.model.js";
+import { messageModel } from "../models/message.model.js";
 
-import {
-  createMemory,
-  queryMemory
-} from "../services/vector.service.js";
+import { createMemory, queryMemory } from "../services/vector.service.js";
 
-import {
-  chatmodel
-} from "../models/chatbot.model.js";
+import { chatmodel } from "../models/chatbot.model.js";
 
 function initSocketServer(httpServer) {
+  const io = new Server(httpServer, {
+    cors: {
+      origin: ["http://localhost:5173", "https://thinkfit-1.onrender.com"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+    },
+  });
 
-  const io = new Server(
-    httpServer,
-    {
-      cors: {
-        origin: [
-          "http://localhost:5173",
-          "https://thinkfit-1.onrender.com",
-        ],
-        allowedHeaders: [
-          "Content-Type",
-          "Authorization",
-        ],
-        credentials: true,
-      },
+  io.use(async (socket, next) => {
+  let token =
+    socket.handshake.auth?.token ||
+    socket.handshake.headers?.cookie
+      ?.split("accessToken=")[1]
+      ?.split(";")[0];
+
+  if (!token) {
+    return next(new Error("No token"));
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    let userData = null;
+
+    if (decoded.role === "user") {
+      userData = await User.findById(decoded._id);
+      socket.user = userData;
+    } else if (decoded.role === "counsellor") {
+      userData = await Counsellor.findById(decoded._id);
+      socket.counsellor = userData;
+    } else {
+      userData = await Admin.findById(decoded._id);
+      socket.admin = userData;
     }
-  );
 
-  io.use(
-    async (
-      socket,
-      next
-    ) => {
+    if (!userData) return next(new Error("User not found"));
 
-      const cookies =
-        cookie.parse(
-          socket.handshake.headers
-            ?.cookie || ""
-        );
+    socket.role = decoded.role;
+    next();
+  } catch (err) {
+    next(new Error("Invalid token"));
+  }
+});
 
-      const token =
-        socket.handshake.auth
-          ?.token ||
-        cookies.accessToken;
-
-      if (!token) {
-
-        return next(
-          new Error(
-            "Authentication error: No token Provided"
-          )
-        );
-
-      }
-
+  io.on("connection", (socket) => {
+    socket.on("ai-message", async (messagePayload) => {
       try {
+        const [message, vectors] = await Promise.all([
+          messageModel.create({
+            chat: messagePayload.chat,
+            sender: socket.user?._id,
+            senderModel: "User",
+            content: messagePayload.content,
+            role: "user",
+          }),
 
-        const decoded =
-          jwt.verify(
-            token,
-            process.env.ACCESS_TOKEN_SECRET
-          );
+          generateVectors(messagePayload.content),
+        ]);
 
-        let userData = null;
+        await createMemory({
+          vectors,
+          messageId: message._id,
+          metadata: {
+            chat: messagePayload.chat,
+            user: socket.user?._id,
+            text: messagePayload.content,
+          },
+        });
 
-        if (
-          decoded.role ===
-          "user"
-        ) {
+        const [memory, chathistory] = await Promise.all([
+          queryMemory({
+            queryVector: vectors,
+            limit: 3,
+            metadata: {
+              user: socket.user?._id,
+            },
+          }),
 
-          userData =
-            await User.findById(
-              decoded._id
-            );
+          messageModel
+            .find({
+              chat: messagePayload.chat,
+            })
+            .sort({
+              createdAt: -1,
+            })
+            .limit(20)
+            .lean()
+            .then((messages) => messages.reverse()),
+        ]);
 
-          socket.user =
-            userData;
+        const stm = chathistory.map((item) => {
+          return {
+            role: item.role,
+            parts: [
+              {
+                text: item.content,
+              },
+            ],
+          };
+        });
 
-        }
+        const ltm = [
+          {
+            role: "user",
+            parts: [
+              {
+                text: `these are some previous messages from the chat, use them to generate a response\n\n${memory
+                  .map((item) => item.metadata.text)
+                  .join("\n")}`,
+              },
+            ],
+          },
+        ];
 
-        else if (
-          decoded.role ===
-          "counsellor"
-        ) {
+        const response = await generateResponse([...ltm, ...stm]);
 
-          userData =
-            await Counsellor.findById(
-              decoded._id
-            );
+        socket.emit("ai-response", {
+          content: response,
+          chat: messagePayload.chat,
+        });
 
-          socket.counsellor =
-            userData;
+        const [responseMessage, responseVectors] = await Promise.all([
+          messageModel.create({
+            chat: messagePayload.chat,
+            sender: socket.user?._id,
+            senderModel: "User",
+            content: response,
+            role: "model",
+          }),
 
-        }
+          generateVectors(response),
+        ]);
 
-        else if (
-          decoded.role ===
-          "admin"
-        ) {
-
-          userData =
-            await Admin.findById(
-              decoded._id
-            );
-
-          socket.admin =
-            userData;
-
-        }
-
-        if (!userData) {
-
-          return next(
-            new Error(
-              "Authentication error: User not found"
-            )
-          );
-
-        }
-
-        socket.role =
-          decoded.role;
-
-        next();
-
+        await createMemory({
+          vectors: responseVectors,
+          messageId: responseMessage._id,
+          metadata: {
+            chat: messagePayload.chat,
+            user: socket.user?._id,
+            text: response,
+          },
+        });
+      } catch (error) {
+        console.log("AI Chat Error:", error);
       }
+    });
 
-      catch (error) {
+    socket.on("join-chat", async (chatId) => {
+      try {
+        if (!mongoose.Types.ObjectId.isValid(chatId)) {
+          console.log("Invalid Chat ID:", chatId);
 
-        next(
-          new Error(
-            "Authentication error: Invalid token"
-          )
+          return;
+        }
+
+        const chat = await chatmodel.findById(chatId);
+
+        if (!chat) {
+          console.log("Chat not found:", chatId);
+
+          return;
+        }
+
+        const currentUser = socket.user || socket.counsellor || socket.admin;
+
+        const currentId = currentUser?._id;
+
+        if (!currentId) {
+          console.log("No user found on socket");
+
+          return;
+        }
+
+        const isUserInChat = chat.users.some(
+          (id) => id.toString() === currentId.toString()
         );
 
+        if (!isUserInChat) {
+          console.log("Access denied");
+
+          return;
+        }
+
+        socket.join(chatId.toString());
+
+        console.log(`${socket.role} joined room ${chatId}`);
+
+        const chatHistory = await messageModel
+          .find({
+            chat: chatId,
+          })
+          .sort({
+            createdAt: 1,
+          });
+
+        socket.emit("chat-history", chatHistory);
+      } catch (err) {
+        console.error("Join Chat Error:", err);
       }
+    });
 
-    }
-  );
+    socket.on("send-message", async (payload) => {
+      try {
+        if (!mongoose.Types.ObjectId.isValid(payload.chat)) {
+          console.log("Invalid chat id");
 
-  io.on(
-    "connection",
-    (socket) => {
-
-      socket.on(
-        "ai-message",
-        async (
-          messagePayload
-        ) => {
-
-          try {
-
-            const [
-              message,
-              vectors
-            ] =
-              await Promise.all([
-                messageModel.create({
-                  chat:
-                    messagePayload.chat,
-                  sender:
-                    socket.user
-                      ?._id,
-                  senderModel:
-                    "User",
-                  content:
-                    messagePayload.content,
-                  role:
-                    "user",
-                }),
-
-                generateVectors(
-                  messagePayload.content
-                ),
-              ]);
-
-            await createMemory({
-              vectors,
-              messageId:
-                message._id,
-              metadata: {
-                chat:
-                  messagePayload.chat,
-                user:
-                  socket.user
-                    ?._id,
-                text:
-                  messagePayload.content,
-              },
-            });
-
-            const [
-              memory,
-              chathistory
-            ] =
-              await Promise.all([
-
-                queryMemory({
-                  queryVector:
-                    vectors,
-                  limit: 3,
-                  metadata: {
-                    user:
-                      socket.user
-                        ?._id,
-                  },
-                }),
-
-                messageModel
-                  .find({
-                    chat:
-                      messagePayload.chat,
-                  })
-                  .sort({
-                    createdAt: -1,
-                  })
-                  .limit(20)
-                  .lean()
-                  .then(
-                    (
-                      messages
-                    ) =>
-                      messages.reverse()
-                  ),
-              ]);
-
-            const stm =
-              chathistory.map(
-                (
-                  item
-                ) => {
-
-                  return {
-                    role:
-                      item.role,
-                    parts: [
-                      {
-                        text:
-                          item.content,
-                      },
-                    ],
-                  };
-
-                }
-              );
-
-            const ltm = [
-              {
-                role:
-                  "user",
-                parts: [
-                  {
-                    text: `these are some previous messages from the chat, use them to generate a response\n\n${memory
-                      .map(
-                        (
-                          item
-                        ) =>
-                          item
-                            .metadata
-                            .text
-                      )
-                      .join(
-                        "\n"
-                      )}`,
-                  },
-                ],
-              },
-            ];
-
-            const response =
-              await generateResponse([
-                ...ltm,
-                ...stm,
-              ]);
-
-            socket.emit(
-              "ai-response",
-              {
-                content:
-                  response,
-                chat:
-                  messagePayload.chat,
-              }
-            );
-
-            const [
-              responseMessage,
-              responseVectors,
-            ] =
-              await Promise.all([
-
-                messageModel.create({
-                  chat:
-                    messagePayload.chat,
-                  sender:
-                    socket.user
-                      ?._id,
-                  senderModel:
-                    "User",
-                  content:
-                    response,
-                  role:
-                    "model",
-                }),
-
-                generateVectors(
-                  response
-                ),
-              ]);
-
-            await createMemory({
-              vectors:
-                responseVectors,
-              messageId:
-                responseMessage._id,
-              metadata: {
-                chat:
-                  messagePayload.chat,
-                user:
-                  socket.user
-                    ?._id,
-                text:
-                  response,
-              },
-            });
-
-          }
-
-          catch (error) {
-
-            console.log(
-              "AI Chat Error:",
-              error
-            );
-
-          }
-
+          return;
         }
-      );
 
-      socket.on(
-        "join-chat",
-        async (
-          chatId
-        ) => {
+        const chat = await chatmodel.findById(payload.chat);
 
-          try {
+        if (!chat) {
+          console.log("Chat not found");
 
-            if (
-              !mongoose.Types.ObjectId.isValid(
-                chatId
-              )
-            ) {
-
-              console.log(
-                "Invalid Chat ID:",
-                chatId
-              );
-
-              return;
-
-            }
-
-            const chat =
-              await chatmodel.findById(
-                chatId
-              );
-
-            if (!chat) {
-
-              console.log(
-                "Chat not found:",
-                chatId
-              );
-
-              return;
-
-            }
-
-            const currentUser =
-              socket.user ||
-              socket.counsellor ||
-              socket.admin;
-
-            const currentId =
-              currentUser?._id;
-
-            if (!currentId) {
-
-              console.log(
-                "No user found on socket"
-              );
-
-              return;
-
-            }
-
-            const isUserInChat =
-              chat.users.some(
-                (
-                  id
-                ) =>
-                  id.toString() ===
-                  currentId.toString()
-              );
-
-            if (
-              !isUserInChat
-            ) {
-
-              console.log(
-                "Access denied"
-              );
-
-              return;
-
-            }
-
-            socket.join(
-              chatId.toString()
-            );
-
-            console.log(
-              `${socket.role} joined room ${chatId}`
-            );
-
-            const chatHistory =
-              await messageModel
-                .find({
-                  chat:
-                    chatId,
-                })
-                .sort({
-                  createdAt: 1,
-                });
-
-            socket.emit(
-              "chat-history",
-              chatHistory
-            );
-
-          }
-
-          catch (err) {
-
-            console.error(
-              "Join Chat Error:",
-              err
-            );
-
-          }
-
+          return;
         }
-      );
 
-      socket.on(
-        "send-message",
-        async (
-          payload
-        ) => {
+        const currentUser = socket.user || socket.counsellor || socket.admin;
 
-          try {
+        const currentId = currentUser?._id;
 
-            if (
-              !mongoose.Types.ObjectId.isValid(
-                payload.chat
-              )
-            ) {
+        if (!currentId) {
+          console.log("No user found");
 
-              console.log(
-                "Invalid chat id"
-              );
-
-              return;
-
-            }
-
-            const chat =
-              await chatmodel.findById(
-                payload.chat
-              );
-
-            if (!chat) {
-
-              console.log(
-                "Chat not found"
-              );
-
-              return;
-
-            }
-
-            const currentUser =
-              socket.user ||
-              socket.counsellor ||
-              socket.admin;
-
-            const currentId =
-              currentUser?._id;
-
-            if (!currentId) {
-
-              console.log(
-                "No user found"
-              );
-
-              return;
-
-            }
-
-            const isUserInChat =
-              chat.users.some(
-                (
-                  id
-                ) =>
-                  id.toString() ===
-                  currentId.toString()
-              );
-
-            if (
-              !isUserInChat
-            ) {
-
-              console.log(
-                "User not allowed in this chat"
-              );
-
-              return;
-
-            }
-
-            const senderModel =
-              socket.role ===
-              "user"
-                ? "User"
-                : socket.role ===
-                  "counsellor"
-                ? "Counsellor"
-                : "Admin";
-
-            const message =
-              await messageModel.create({
-                chat:
-                  payload.chat,
-                sender:
-                  currentId,
-                senderModel:
-                  senderModel,
-                content:
-                  payload.content,
-                role:
-                  socket.role,
-              });
-
-            io.to(
-              payload.chat.toString()
-            ).emit(
-              "receive-message",
-              message
-            );
-
-          }
-
-          catch (err) {
-
-            console.error(
-              "Send Message Error:",
-              err
-            );
-
-          }
-
+          return;
         }
-      );
 
-      socket.on(
-        "disconnect",
-        () => {
+        const isUserInChat = chat.users.some(
+          (id) => id.toString() === currentId.toString()
+        );
 
-          console.log(
-            "Socket disconnected"
-          );
+        if (!isUserInChat) {
+          console.log("User not allowed in this chat");
 
+          return;
         }
-      );
 
-    }
-  );
+        const senderModel =
+          socket.role === "user"
+            ? "User"
+            : socket.role === "counsellor"
+              ? "Counsellor"
+              : "Admin";
 
+        const message = await messageModel.create({
+          chat: payload.chat,
+          sender: currentId,
+          senderModel: senderModel,
+          content: payload.content,
+          role: socket.role,
+        });
+
+        io.to(payload.chat.toString()).emit("receive-message", message);
+      } catch (err) {
+        console.error("Send Message Error:", err);
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnected");
+    });
+  });
 }
 
 export default initSocketServer;
