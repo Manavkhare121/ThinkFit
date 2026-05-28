@@ -8,7 +8,7 @@ import themeicon from "../../../assets/themeicon.png";
 import ThinkFitimage from "../../../assets/ThinkFitimage.png";
 import settingIcon from "../../../assets/settingIcon.png";
 import Booking from "../../../assets/booking.png";
-import Chatbot from "../../../assets/Chatbot.png";
+import Chatbot from "../../../assets/chatbot.png";
 import Guide from "../../../assets/Guideicon.png";
 
 

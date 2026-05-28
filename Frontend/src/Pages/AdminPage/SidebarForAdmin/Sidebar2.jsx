@@ -7,7 +7,7 @@ import Logouticon from "../../../assets/Logouticon.png";
 import themeicon from "../../../assets/themeicon.png";
 import ThinkFitimage from "../../../assets/ThinkFitimage.png";
 import settingIcon from "../../../assets/settingIcon.png";
-import Booking from "../../../assets/Booking.png";
+import Booking from "../../../assets/booking.png";
 
 
 const Sidebar = () => {
