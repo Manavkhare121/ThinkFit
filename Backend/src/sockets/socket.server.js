@@ -23,7 +23,7 @@ import { chatmodel } from "../models/chatbot.model.js";
 function initSocketServer(httpServer) {
   const io = new Server(httpServer, {
     cors: {
-      origin: ["http://localhost:5173", "https://thinkfit-1.onrender.com"],
+      origin: ["http://localhost:5173", "https://thinkfit-1.onrender.com", "https://thinkfit.onrender.com"],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,
     },

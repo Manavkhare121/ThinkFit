@@ -20,6 +20,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://thinkfit-1.onrender.com",
+      "https://thinkfit.onrender.com",
     ],
     credentials: true,
   })
